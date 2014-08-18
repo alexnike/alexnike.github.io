@@ -59,6 +59,15 @@ a {
 	margin-bottom: 0px;
 }
 
+.bottom {
+	width: 1000px;
+	min-height: 100px;
+	float: left;
+	margin-top: 0px;
+	padding:25px;	
+	background: #ffffff;
+}
+
 .container > header h1 {
     font-family: 'Open Sans', sans-serif;
 	font-size: 34px;
@@ -123,7 +132,7 @@ p {
 .page {
 	width: 1000px;
 	background: #ffffff;
-	min-height: 900px;
+	min-height: 200px;
 	height: 100%;
 	margin-left: 10px; 
 	margin-bottom: 45px; 

@@ -232,7 +232,7 @@ p {
 .stranica {
 	width: 1000px;
 	background: #272e34;
-	min-height: 1200px;
+	min-height: 400px;
 	height: 100%;
 	margin-left: 10px; 
 	margin-bottom: 45px; 
@@ -322,12 +322,22 @@ p {
 
 .descr {
 	width: 1000px;
-	min-height: 300px;
+	min-height: 50px;
 	float: left;
 	margin-top: 0px;
 	padding:25px;	
 	background: #ffffff;
 }
+
+.bottom {
+	width: 1000px;
+	min-height: 100px;
+	float: left;
+	margin-top: 0px;
+	padding:25px;	
+	background: #ffffff;
+}
+
 
 .navigi{
 	min-width: 1000px;

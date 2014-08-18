@@ -59,6 +59,15 @@ a {
 	margin-bottom: 0px;
 }
 
+.bottom {
+	width: 1000px;
+	min-height: 100px;
+	float: left;
+	margin-top: 0px;
+	padding:25px;	
+	background: #ffffff;
+}
+
 .container > header h1 {
     font-family: 'Open Sans', sans-serif;
 	font-size: 34px;
@@ -334,7 +343,7 @@ p {
 
 .descr {
 	width: 1000px;
-	min-height: 300px;
+	min-height: 60px;
 	float: left;
 	margin-top: 15px;
 	padding:25px;	
