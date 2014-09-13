@@ -52,7 +52,7 @@
 			 * False for not appending arrows
 			 * Id or class name (e.g. '.class-name') for appending to specific HTML markup
 			 */
-			nav: false,
+			nav: true,
 			// {Bool} Center bullet navigation
 			navCenter: true,
 			// {String} Navigation class

@@ -57,24 +57,24 @@
 			.slider-arrow--right { bottom: 50%; right: 0px; background: url(../images/right.png) right no-repeat;}
 			.slider-arrow--left { bottom: 50%; left: 0px; background: url(../images/left.png) left no-repeat; }
 
-
 	.slider-nav {
 		position: absolute;
-		bottom: 30px;
+		bottom: 10px;
 	}
 
 		.slider-nav__item {
-			width: 12px;
-			height: 12px;
+			width: 10px;
+			height: 10px;
 			float: left;
 			clear: none;
 			display: block;
 			margin: 0 5px;
-			background: #fff;
+			background: #ecf0f1;
+			border-radius: 50px;
 		}
 
-				.slider-nav__item:hover { background: #ccc; }
-				.slider-nav__item--current { background: #ccc; }
+				.slider-nav__item:hover { background: #1abc9c; }
+				.slider-nav__item--current { background: #df0024; }
 				
 	 li {
     list-style-type: none; /* Убираем маркеры */
