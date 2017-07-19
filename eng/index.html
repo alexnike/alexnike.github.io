@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Alexander Anikeev — UX/UI Designer</title>
+	<meta name="description" content="Портфолио веб-дизайнера, UX/UI дизайнера, дизайнера интерфейсов, мобильных приложений" />
+	<meta name="keywords" content="веб-дизайнер, дизайн, дизайнер мобильных приложений, дизайн интерфесов, проектирование интерфейсов, UX/UI дизайнер, designer, UX/UI designer" />
+	<meta name="author" content="Александр Аникеев" />
+	<link rel="shortcut icon" href="favicon.ico">	
+	<!-- Fonts -->
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700|Open+Sans:400italic,400,300,800&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,900" rel="stylesheet">
+	<!-- New style -->
+	<link rel="stylesheet" type="text/css" href="css/demo.css" />	
+	<link rel="stylesheet" type="text/css" href="css/component.css" />	
+	<!-- Old style -->
+	<link rel="stylesheet" type="text/css" href="css/componentold.css" />
+	<link rel="stylesheet" type="text/css" href="css/styleold.css" />	
+	<!-- <link rel="stylesheet" type="text/css" href="css/defaultold.css" /> -->	
+	<!-- New scripts -->
+	<script src="js/modernizr-custom.js"></script>	
+	<!-- Old screpts -->
+	<script src="js/grid.js"></script>
+	<script src="js/jquery.glide.js"></script>
+	<script src="js/modernizr.custom.js"></script>	
+</head>
+<body>
+	<!-- Main container -->
+	<div class="container">
+		<!-- Blueprint header -->
+		<header class="bp-header cf">
+			<div class="bp-header__main">
+				<span class="bp-header__present">UX/UI Designer</span>
+				<h1 class="bp-header__title">Alexander Anikeev</h1>
+				<!--<nav class="bp-nav">
+					<a class="bp-nav__item bp-icon bp-icon--prev" href="http://tympanus.net/Blueprints/PageStackNavigation/" data-info="previous Blueprint"><span>Previous Blueprint</span></a>-->
+					<!--a class="bp-nav__item bp-icon bp-icon--next" href="" data-info="next Blueprint"><span>Next Blueprint</span></a-->
+					<!--<a class="bp-nav__item bp-icon bp-icon--drop" href="http://tympanus.net/codrops/?p=25521" data-info="back to the Codrops article"><span>back to the Codrops article</span></a>
+					<a class="bp-nav__item bp-icon bp-icon--archive" href="http://tympanus.net/codrops/category/blueprints/" data-info="Blueprints archive"><span>Go to the archive</span></a>
+				</nav>-->
+			</div>
+		</header>
+		<button class="action action--open" aria-label="Open Menu"><span class="icon icon--menu"></span></button>
+		<nav id="ml-menu" class="menu">
+			<button class="action action--close" aria-label="Close Menu"><span class="icon icon--cross"></span></button>
+			<div class="menu__wrap">
+				<ul data-menu="main" class="menu__level" tabindex="-1" role="menu" aria-label="All">
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">About me</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-2" aria-owns="submenu-2" href="#">Mobile applications</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-3" aria-owns="submenu-3" href="#">Desktop applications</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-4" aria-owns="submenu-4" href="#">Web applications</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Websites</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Prototypes</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Branding</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Contacts</a></li>
+				</ul>
+				<!-- Submenu 1 -->
+				<ul data-menu="submenu-1" id="submenu-1" class="menu__level" tabindex="-1" role="menu" aria-label="Vegetables">
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Stalk Vegetables</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Roots &amp; Seeds</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Cabbages</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Salad Greens</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Mushrooms</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-1-1" aria-owns="submenu-1-1" href="#">Sale %</a></li>
+				</ul>
+				<!-- Submenu 1-1 -->
+				<ul data-menu="submenu-1-1" id="submenu-1-1" class="menu__level" tabindex="-1" role="menu" aria-label="Sale %">
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Fair Trade Roots</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Dried Veggies</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Our Brand</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Homemade</a></li>
+				</ul>
+				<!-- Submenu 2 -->
+				<ul data-menu="submenu-2" id="submenu-2" class="menu__level" tabindex="-1" role="menu" aria-label="Fruits">
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Citrus Fruits</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Berries</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-2-1" aria-owns="submenu-2-1" href="#">Special Selection</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Tropical Fruits</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Melons</a></li>
+				</ul>
+				<!-- Submenu 2-1 -->
+				<ul data-menu="submenu-2-1" id="submenu-2-1" class="menu__level" tabindex="-1" role="menu" aria-label="Special Selection">
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Exotic Mixes</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Wild Pick</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Vitamin Boosters</a></li>
+				</ul>
+				<!-- Submenu 3 -->
+				<ul data-menu="submenu-3" id="submenu-3" class="menu__level" tabindex="-1" role="menu" aria-label="Grains">
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Buckwheat</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Millet</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Quinoa</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Wild Rice</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Durum Wheat</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-3-1" aria-owns="submenu-3-1" href="#">Promo Packs</a></li>
+				</ul>
+				<!-- Submenu 3-1 -->
+				<ul data-menu="submenu-3-1" id="submenu-3-1" class="menu__level" tabindex="-1" role="menu" aria-label="Promo Packs">
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Starter Kit</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">The Essential 8</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Bolivian Secrets</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Flour Packs</a></li>
+				</ul>
+				<!-- Submenu 4 -->
+				<ul data-menu="submenu-4" id="submenu-4" class="menu__level" tabindex="-1" role="menu" aria-label="Mylk &amp; Drinks">
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Grain Mylks</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Seed Mylks</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Nut Mylks</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Nutri Drinks</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-4-1" aria-owns="submenu-4-1" href="#">Selection</a></li>
+				</ul>
+				<!-- Submenu 4-1 -->
+				<ul data-menu="submenu-4-1" id="submenu-4-1" class="menu__level" tabindex="-1" role="menu" aria-label="Selection">
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Nut Mylk Packs</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Amino Acid Heaven</a></li>
+					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Allergy Free</a></li>
+				</ul>
+			</div>			
+		</nav>		
+		<div class="content">
+				<ul id="og-grid" class="og-grid">				
+<!-- Mobile app (Windows Phone360)-->				
+					<li>
+						<a href="works/mobile/02mobile.html"  data-largesrc="images/360wp.jpg" data-title="Yellow360. Windows phone App" data-description="Приложение для Windows phone - клиент для звонков и сообщений.">
+							<img src="images/thumbs/360wp.jpg" alt="img02"/>
+						</a>
+					</li>
+
+<!-- Mobile app (Windows Phone Bus)-->					
+					<li>
+						<a href="works/mobile/05mobile.html"  data-largesrc="images/gdavtandr.jpg" data-title="Где автобус. Windows phone App" data-description="Приложение для Windows Phone по отслеживанию маршрутов общественного транспорта в режиме онлайн.">
+							<img src="images/thumbs/gdavtandr.jpg" alt="img02"/>
+						</a>
+					</li>
+					
+<!-- Desktop app (Yellow 360)-->					
+					<li>
+						<a href="works/desktop/01yellow360.html" data-largesrc="images/y360.jpg" data-title="Yellow 360 - десктопное приложение" data-description="Приложение обеспечивающее голосовую связь через интернет. Задача - обеспечить максимально легкий прием звонка и вызов с номера 8 800.">
+							<img src="images/thumbs/y360.jpg" alt="img01"/>
+						</a>
+					</li>
+					
+<!-- Brandibg (Lovedant)-->					
+					<li>
+						<a href="works/firstyle/01lovemed.html"  data-largesrc="images/lovemed.jpg" data-title="Лавдент" data-description="Фирменный стиль для небольшого медицинского стоматологического центра.">
+							<img src="images/thumbs/lovemed.jpg" alt="img01"/>
+						</a>
+					</li>
+					
+<!-- Mobile app (Yellow 360 Android App)-->						
+					<li>
+						<a href="works/mobile/01mobile.html"  data-largesrc="images/360android.jpg" data-title="Yellow360. Android App" data-description="Мобильное приложение под Android  позволяющее совершать бесплатные звонки в более чем 1000 000 компаний по всему миру.">
+							<img src="images/thumbs/360android.jpg" alt="img01"/>
+						</a>
+					</li>
+
+<!-- Logo (Medicine. Branding)-->					
+					<li>
+						<a href="works/logo/04med.html"  data-largesrc="images/med.jpg" data-title="Медицина" data-description="Логотип для крупной медицинской компании.">
+							<img src="images/thumbs/med.jpg" alt="img03"/>
+						</a>
+					</li>
+					
+<!-- Idea (OpenSketch. Idea.)-->						
+					<li>
+						<a href="works/idea/01openscetch.html"  data-largesrc="images/opensketch.jpg" data-title="Opensketch" data-description="Концепция скетчбука. Подарок на Новый год, всем дизайнерам, кому идея придется по душе.">
+							<img src="images/thumbs/opensketch.jpg" alt="img01"/>
+						</a>
+					</li>	
+					
+<!-- Logo (Minima)-->					
+					<li>
+						<a href="works/logo/01minima.html"  data-largesrc="images/minima.jpg" data-title="Minima" data-description="Логотип для мобильного приложения - менеджера задач.">
+							<img src="images/thumbs/minima.jpg" alt="img01"/>
+						</a>
+					</li>
+					
+<!-- Logo (YO)-->
+					<li>
+						<a href="works/logo/02yo.html"  data-largesrc="images/yo.jpg" data-title="Yo messenger" data-description="Логотип для мобильного приложения - чата. Приложение лаконичное, рассчитанное на простое общение.">
+							<img src="images/thumbs/yo.jpg" alt="img02"/>
+						</a>
+					</li>
+					
+<!--Mobile app (Bus. Mobile app)-->
+					<li>
+						<a href="works/mobile/04mobile.html"  data-largesrc="images/gdavtwp.jpg" data-title="Где автобус. Android App" data-description="Приложение по отслеживанию маршрутов общественного транспорта в режиме онлайн.">
+							<img src="images/thumbs/gdavtwp.jpg" alt="img01"/>
+						</a>
+					</li>
+					
+<!-- Logo (My logo)-->					
+					<li>
+						<a href="works/logo/03my.html"  data-largesrc="images/mylogo.jpg" data-title="Логотип для себя" data-description="Логотип который я разработал специльно для себя. С удовольствием. Доволен.">
+							<img src="images/thumbs/mylogo.jpg" alt="img03"/>
+						</a>
+					</li>
+					
+<!-- Brandibg (Digital Box)-->
+					<li>
+						<a href="works/firstyle/02dbox.html"  data-largesrc="images/dbox.jpg" data-title="DIGITALBOX" data-description="Фирменный стиль для небольшой диджитал компании с сильной стороной в разработке софта. ">
+							<img src="images/thumbs/dbox.jpg" alt="img03"/>
+						</a>
+					</li>
+					
+<!-- Logo (Kalkan)					
+					<li>
+						<a href="works/logo/08qlq.html"  data-largesrc="images/qlq.jpg" data-title="Калкан" data-description="Логотип для програмного продукта - антивируса.">
+							<img src="images/thumbs/qlq.jpg" alt="img03"/>
+						</a>
+					</li>
+-->
+					
+<!-- Mobile app (Yellow 360 iOs)-->					
+					<li>
+						<a href="works/mobile/03mobile.html"  data-largesrc="images/360iOs7.jpg" data-title="Yellow360. Windows iOs7 App" data-description="Приложение для iPhone позволяющее совершать бесплатные звонки в более чем 1000 000 компаний по всему миру.">
+							<img src="images/thumbs/360iOs7.jpg" alt="img03"/>
+						</a>
+					</li>
+
+<!-- Logo (Salamatova)-->	
+					<li>
+						<a href="works/logo/06salamatova.html"  data-largesrc="images/as.jpg" data-title="Анастасия Саламатова" data-description="Логотип для девушки мастера-парикмахера.">
+							<img src="images/thumbs/as.jpg" alt="img03"/>
+						</a>
+					</li>
+
+<!-- Logo (Vyatplast)-->					
+					<li>
+						<a href="works/logo/07vyatplast.html"  data-largesrc="images/vpl.jpg" data-title="Вятпласт" data-description="Логотип для компании занимающейся производством поликарбоната.">
+							<img src="images/thumbs/vpl.jpg" alt="img03"/>
+						</a>
+					</li>
+
+<!-- Mobile app (Vilbi)-->						
+					<li>
+						<a href="works/mobile/06vilbi.html"  data-largesrc="images/vb.jpg" data-title="Vilbi. iOs App" data-description="Мобильное приложение для iOs - локальный каталог компаний. ">
+							<img src="images/thumbs/vb.jpg" alt="img03"/>
+						</a>
+					</li>
+
+<!-- Десктопное приложение (Софтфон)-->					
+					<li>
+						<a href="works/desktop/02sf360.html"  data-largesrc="images/softphone.jpg" data-title="Софтфон Yellow 360" data-description="Приложение упрощающее работу операторов колл-центра.">
+							<img src="images/thumbs/softphone.jpg" alt="img03"/>
+						</a>
+					</li>
+
+<!-- Веб (Статистика супервайзера)-->					
+					<li>
+						<a href="works/web/01svzr.html"  data-largesrc="images/spvzr.jpg" data-title="Статистика супервайзера" data-description="Статистика супервайзера-веб приложение упрощающее работу супервайзера колл-центра.">
+							<img src="images/thumbs/spvzr.jpg" alt="img03"/>
+						</a>
+					</li>
+					
+<!-- Веб(ЕРП система)-->					
+					<li>
+						<a href="works/web/02erp.html"  data-largesrc="images/erp.jpg" data-title="ERP система" data-description="ERP система колл-центра компании Yellow Pages Telecom.">
+							<img src="images/thumbs/erp.jpg" alt="img03"/>
+						</a>
+					</li>
+					
+<!-- Веб (Конфигуратор)-->					
+					<li>
+						<a href="works/web/03konf.html"  data-largesrc="images/konf.jpg" data-title="Веб-конфигуратор" data-description="Веб-конфигуратор услуг телефонии для клиентов компании Yellow Pages Telecom.">
+							<img src="images/thumbs/konf.jpg" alt="img03"/>
+						</a>
+					</li>
+					
+<!-- Логотип (YellowPages)-->						
+					<li>
+						<a href="works/logo/09op.html"  data-largesrc="images/yellowoperator.jpg" data-title="Логотип Yellow Pages Telecom" data-description="Логотип для компании Yellow Pages Telecom предложенный в рамках запланированного ребрэндинга.">
+							<img src="images/thumbs/yellowoperator.jpg" alt="img03"/>
+						</a>
+					</li>
+					
+<!-- Мобильные приложения (Иконки)-->					
+					<li>
+						<a href="works/mobile/07iconapp.html"  data-largesrc="images/icon.jpg" data-title="Иконочки" data-description="Флэт иконки нарисованные для нескольких мобильных приложений.">
+							<img src="images/thumbs/icon.jpg" alt="img03"/>
+						</a>
+					</li>
+					
+<!-- Веб (Сайт доктора Гришина)-->					
+					<li>
+						<a href="works/web/04grish.html"  data-largesrc="images/drg.jpg" data-title="Сайт клиники доктора Гришина" data-description="Вебсайт для хорошей стоматологической клиники.">
+							<img src="images/thumbs/drg.jpg" alt="img03"/>
+						</a>
+					</li>
+					
+<!-- Мобильные приложения (ДВ-Такси Андроид)-->					
+					<li>
+						<a href="works/mobile/08dv.html"  data-largesrc="images/dvad.jpg" data-title="ДВ-Такси. Android App" data-description="Мобильное приложение под Android «ДВ-Такси». "> 
+							<img src="images/thumbs/dvad.jpg" alt="img03"/>
+						</a>
+					</li>
+					
+				</ul>							
+			</div>		
+	</div>
+	<!-- /view -->
+	<script src="js/classie.js"></script>
+	<script src="js/dummydata.js"></script>
+	<script src="js/main.js"></script>
+	<script>
+	(function() {
+		var menuEl = document.getElementById('ml-menu'),
+			mlmenu = new MLMenu(menuEl, {
+				// breadcrumbsCtrl : true, // show breadcrumbs
+				// initialBreadcrumb : 'all', // initial breadcrumb text
+				backCtrl : false, // show back button
+				// itemsDelayInterval : 60, // delay between each menu item sliding animation
+				onItemClick: loadDummyData // callback: item that doesn´t have a submenu gets clicked - onItemClick([event], [inner HTML of the clicked item])
+			});
+
+		// mobile menu toggle
+		var openMenuCtrl = document.querySelector('.action--open'),
+			closeMenuCtrl = document.querySelector('.action--close');
+
+		openMenuCtrl.addEventListener('click', openMenu);
+		closeMenuCtrl.addEventListener('click', closeMenu);
+
+		function openMenu() {
+			classie.add(menuEl, 'menu--open');
+			closeMenuCtrl.focus();
+		}
+
+		function closeMenu() {
+			classie.remove(menuEl, 'menu--open');
+			openMenuCtrl.focus();
+		}
+
+		// simulate grid content loading
+		var gridWrapper = document.querySelector('.content');
+
+		function loadDummyData(ev, itemName) {
+			ev.preventDefault();
+
+			closeMenu();
+			gridWrapper.innerHTML = '';
+			classie.add(gridWrapper, 'content--loading');
+			setTimeout(function() {
+				classie.remove(gridWrapper, 'content--loading');
+				gridWrapper.innerHTML = '<ul class="products">' + dummyData[itemName] + '<ul>';
+			}, 700);
+		}
+	})();
+	</script>
+	
+	<!-- /Старые скрипты -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="js/grid.js"></script>
+		<script>
+			$(function() {
+				Grid.init();
+			});
+		</script>		
+</body>
+</html>

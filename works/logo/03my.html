@@ -1,49 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
-		<title>Александр Аникеев дизайнер интерфейсов, веб-дизайнер, дизайнер мобильных и десктопных приложений</title>
-		<meta name="description" content="Портфолио веб-дизайнера, дизайнера интерфейсов, мобильных приложений" />
-		<meta name="keywords" content="веб-дизайнер, дизайн, дизайнер мобильных приложений, дизайн интерфесов, проектирование интерфейсов" />
-		<meta name="author" content="Александр Аникеев" />
-		<link rel="shortcut icon" href="../favicon.ico"> 
-		<link rel="stylesheet" type="text/css" href="css/default.css" />		
-		<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700|Open+Sans:400italic,400,300,800&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" type="text/css" href="css/style.css">
-		<script src="http://code.jquery.com/jquery-1.9.1.min.js "></script>		
-		<script type="text/javascript" src="js/jquery.glide.js"></script>
-	</head>
-	<body style="background: url(images/asteroids.jpg) repeat;">
-		<div class="container">	
-			<!--/ Codrops top bar -->
-			<header class="clearfix">
-				<a href="http://alexnike.github.io/"><img onmouseover="this.src='images/backhover.svg';" onmouseout="this.src='images/back.svg';" alt="image001" src="images/back.svg" style="border:0px; float:left;"/></a>
-				<a href="http://alexnike.github.io/menu.html"><img onmouseover="this.src='images/logotiphover.svg';" onmouseout="this.src='images/logotip.svg';" alt="image001" src="images/logotip.svg" style="border:0px; float: left;"/></a>	
-				<div class="title">Александр Аникеев</div>
-			</header>
-						<div class="main">
-            <div class="stranica">						
-					<div class="descr">
-						<p>Сделал логотип для себя. Шрифтовая часть в работе.</p>
-					</div>	
+<html lang="en" class="no-js">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Александр Аникеев — UX/UI Дизайнер</title>
+	<meta name="description" content="Портфолио веб-дизайнера, UX/UI дизайнера, дизайнера интерфейсов, мобильных приложений" />
+	<meta name="keywords" content="веб-дизайнер, дизайн, дизайнер мобильных приложений, дизайн интерфесов, проектирование интерфейсов, UX/UI дизайнер, designer, UX/UI designer" />
+	<meta name="author" content="Александр Аникеев" />
+	<link rel="shortcut icon" href="favicon.ico">	
+	<!-- Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900&amp;subset=cyrillic,cyrillic-ext" rel="stylesheet">
+	<!-- New style -->
+	<link rel="stylesheet" type="text/css" href="css/demo.css" />	
+	<link rel="stylesheet" type="text/css" href="css/component.css" />	
+	<!-- Old style -->
+	<link rel="stylesheet" type="text/css" href="css/componentold.css" />
+	<link rel="stylesheet" type="text/css" href="css/styleold.css" />	
+	<!-- New scripts -->
+	<script src="js/modernizr-custom.js"></script>	
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js "></script>	
+	<!-- Old scripts -->
+	<script src="js/grid.js"></script>
+	<script src="js/jquery.glide.js"></script>
+	<script src="js/modernizr.custom.js"></script>	
+</head>
+<body>
+	<!-- Main container -->
+	<div class="container">
+		<!-- Blueprint header -->
+		<header class="bp-header cf">
+			<div class="bp-header__main">
+				<span class="bp-header__present">UX/UI Дизайнер</span>
+				<h1 class="bp-header__title"><a href="http://alexnike.github.io/">Александр Аникеев</a></h1>
+				<nav class="bp-nav">
+					<a class="langactive" href="index.html"> Ru</a> |
+					<a class="lang" href="">Eng</a>					
+				</nav>
+			</div>
+		</header>
+		<!-- Menu -->
+		<button class="action action--open" aria-label="Open Menu"><span class="icon icon--menu"></span></button>
+		<nav id="ml-menu" class="menu">
+			<button class="action action--close" aria-label="Close Menu"><span class="icon icon--cross"></span></button>
+			<div class="menutitle"><a href="http://alexnike.github.io/">&larr; На главную</a></div>	
+			<div class="menu__wrap">
+				<ul data-menu="main" class="menu__level" tabindex="-1" role="menu" aria-label="All">					
+					<li> <a class="menu__link" href="http://alexnike.github.io/about.html">Обо мне</a></li>
+					<li> <a class="menu__link" href="http://alexnike.github.io/mobile.html">Мобильные приложения</a></li>
+					<li> <a class="menu__link" href="http://alexnike.github.io/desktop.html">Десктопные приложения</a></li>
+					<li><a class="menu__link" href="http://alexnike.github.io/webapp.html">Веб—приложения</a></li>
+					<li><a class="menu__link" href="http://alexnike.github.io/site.html">Сайты</a></li>
+					<!-- <li><a class="menu__link" href="#">Прототипы</a></li> -->
+					<li><a class="menu__link" href="http://alexnike.github.io/branding.html"><span style="color:#a4c4ce;">Брэндинг</span></a></li>
+					<li><a class="menu__link" href="http://alexnike.github.io/contacts.html">Контакты</a></li>
+				</ul>
+			</div>			
+		</nav>		
+		<div class="content">
+			<div class="navarr">
+				<div class="leftarr"> <a href="02yo.html"><img onmouseover="this.src='images/leftarrhover.svg';" onmouseout="this.src='images/leftarr.svg';" alt="image001" src="images/leftarr.svg" style="border:0px; float:left;"/></a> </div>
+				<div class="rarr"> <a href="04med.html"><img onmouseover="this.src='images/rarrhover.svg';" onmouseout="this.src='images/rarr.svg';" alt="image001" src="images/rarr.svg" style="border:0px; float: left;"/></a> </div>				
+			</div>
+			<div class="stranica">
+				<div class="page">
+					<h1>Александр Аникеев</h1>					
+					<p>
+					Сделал логотип для себя. Шрифтовая часть в работе.
+					</p>
 					<div class="slider">
 					  <ul class="slides">
 						<li class="slide"><img src="images/01my.jpg"></img></li>
 						<li class="slide"><img src="images/02my.jpg"></img></li>
 						<li class="slide"><img src="images/03my.jpg"></img></li>									
 					</ul>
-					</div>	
-					<div class="bottom">							
-						
-					</div>					
-					<div class="navigi">
-					<div class="larr"><a href="02yo.html"><img onmouseover="this.src='images/leftarrhover.svg';" onmouseout="this.src='images/leftarr.svg';" alt="image0071" src="images/leftarr.svg"/></a></img></div>
-					<div class="rarr"><a href="04med.html"><img onmouseover="this.src='images/rarrhover.svg';" onmouseout="this.src='images/rarr.svg';" alt="image0071" src="images/rarr.svg"/></a></div>
-					</div>
-			</div>			
-			</div>
-		</div><!-- /container -->
+					</div>				
+				</div>
+			</div>	
+		</div>	
+	</div>
+	<!-- /view -->
+	<script src="js/classie.js"></script>
+	<script src="js/dummydata.js"></script>
+	<script src="js/main.js"></script>
+	<script>
+	(function() {
+		var menuEl = document.getElementById('ml-menu'),
+			mlmenu = new MLMenu(menuEl, {
+				// breadcrumbsCtrl : true, // show breadcrumbs
+				// initialBreadcrumb : 'all', // initial breadcrumb text
+				backCtrl : false, // show back button
+				// itemsDelayInterval : 60, // delay between each menu item sliding animation
+				onItemClick: loadDummyData // callback: item that doesn´t have a submenu gets clicked - onItemClick([event], [inner HTML of the clicked item])
+			});
+
+		// mobile menu toggle
+		var openMenuCtrl = document.querySelector('.action--open'),
+			closeMenuCtrl = document.querySelector('.action--close');
+
+		openMenuCtrl.addEventListener('click', openMenu);
+		closeMenuCtrl.addEventListener('click', closeMenu);
+
+		function openMenu() {
+			classie.add(menuEl, 'menu--open');
+			closeMenuCtrl.focus();
+		}
+
+		function closeMenu() {
+			classie.remove(menuEl, 'menu--open');
+			openMenuCtrl.focus();
+		}
+
+		// simulate grid content loading
+		var gridWrapper = document.querySelector('.content');
+
+		function loadDummyData(ev, itemName) {
+			ev.preventDefault();
+
+			closeMenu();
+			gridWrapper.innerHTML = '';
+			classie.add(gridWrapper, 'content--loading');
+			setTimeout(function() {
+				classie.remove(gridWrapper, 'content--loading');
+				gridWrapper.innerHTML = '<ul class="products">' + dummyData[itemName] + '<ul>';
+			}, 700);
+		}
+	})();
+	</script>
+	
+	<!-- /Старые скрипты -->	
 		<script>
 		$('.slider').glide();
 		</script>
@@ -53,6 +139,6 @@
 		arrows: 'body',
 		nav: 'body'
 		});
-		</script>		
-	</body>
+		</script>
+</body>
 </html>
