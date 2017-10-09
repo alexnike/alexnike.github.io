@@ -310,7 +310,8 @@ body #cdawrap a:hover.carbon-poweredby {
 }
 
 @media screen and (max-width: 40em) {
-	.block2item {
+	.block2item ,
+	.block6item {
 	min-width: 100%;
 	}
 	.bp-header  {
@@ -469,6 +470,74 @@ body #cdawrap a:hover.carbon-poweredby {
     -o-background-size: 100%; /* Opera 9.6+ */
     background-size: 100%; /* Современные браузеры */
 	background-size: cover; /* Масштабируем фон */
+}
+
+#block5
+{
+	margin: 0 auto;
+	text-align: center;		
+	background: url(../images/minimaintro.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block6
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 24px 0 48px 0;
+	width: 100%;
+	height: auto;
+	background: #24242e;
+}
+
+#block8
+{
+	margin: 0 auto;
+	text-align: center;	
+	width: 100%;		
+	background: url(../images/minimafinal.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+.block6wrapper
+{
+	margin: 0 auto;
+	text-align: center;
+	width: 90%;
+}
+
+.block6item
+{	
+	padding: 16px 0 0 16px;
+	margin: 24px 0 24px 0;
+	text-align: left;
+	float: left;
+	width: 50%;
+}
+
+.block6image
+{
+	margin: 0 auto;
+	width: 300px;
+	height: 300px;
+	vertical-align:bottom;
+}
+
+#block7
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 24px 0 0 0;
+	width: 100%;	
+	background: #ffffff;
 }
 
 h1
