@@ -494,12 +494,46 @@ body #cdawrap a:hover.carbon-poweredby {
 	background: #24242e;
 }
 
+#block7
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 24px 0 0 0;
+	width: 100%;	
+	background: #ffffff;
+}
+
 #block8
 {
 	margin: 0 auto;
 	text-align: center;	
 	width: 100%;		
 	background: url(../images/minimafinal.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block9
+{
+	margin: 0 auto;
+	text-align: center;		
+	background: url(../images/yointro.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block10
+{
+	margin: 0 auto;
+	text-align: center;	
+	width: 100%;		
+	background: url(../images/yofinal.jpg);
 	-moz-background-size: 100%; /* Firefox 3.6+ */
     -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
     -o-background-size: 100%; /* Opera 9.6+ */
@@ -520,8 +554,7 @@ body #cdawrap a:hover.carbon-poweredby {
 	margin: 24px 0 24px 0;
 	text-align: left;
 	float: left;
-	width: 50%;
-}
+	width: 50%;}
 
 .block6image
 {
@@ -529,15 +562,6 @@ body #cdawrap a:hover.carbon-poweredby {
 	width: 300px;
 	height: 300px;
 	vertical-align:bottom;
-}
-
-#block7
-{
-	margin: 0 auto;
-	text-align: center;
-	padding: 24px 0 0 0;
-	width: 100%;	
-	background: #ffffff;
 }
 
 h1
