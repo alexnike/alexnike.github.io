@@ -450,6 +450,13 @@ body #cdawrap a:hover.carbon-poweredby {
 	vertical-align:bottom;
 }
 
+.block99image
+{
+	margin-bottom: 0px;	
+	width: 100%;
+	vertical-align:bottom;	
+}
+
 #block3
 {
 	margin: 0 auto;
@@ -492,6 +499,7 @@ body #cdawrap a:hover.carbon-poweredby {
 	width: 100%;
 	height: auto;
 	background: #24242e;
+	overflow: hidden;
 }
 
 #block7
@@ -642,6 +650,119 @@ body #cdawrap a:hover.carbon-poweredby {
 	background-size: cover; /* Масштабируем фон */
 }
 
+#block19
+{
+	margin: 0 auto;
+	text-align: center;		
+	background: url(../images/zozhintro.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block20
+{
+	margin: 0 auto;
+	text-align: center;	
+	width: 100%;		
+	background: url(../images/yofinal.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block21
+{
+	margin: 0 auto;
+	text-align: left;		
+	background: url(../images/colvirintro.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block22
+{
+margin: 0 auto;
+	text-align: left;		
+	background: url(../images/mountain.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block23
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 24px 0 48px 0;
+	width: 100%;
+	height: auto;
+	background: #fbfbfb;
+	overflow: hidden;
+	border-bottom: 1px solid #e4e4e4;
+}
+
+#block24
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 24px 0 0 0;
+	width: 100%;	
+	background: #ffffff;
+	border-bottom: 1px solid #e4e4e4;
+}
+
+#block25
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 24px 0 48px 0;
+	width: 100%;
+	height: auto;
+	background: #24242e;
+	overflow: hidden;
+	border-bottom: 1px solid #e4e4e4;
+}
+
+#block26
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 0 0 10px 0;
+	width: 100%;	
+	background: #ffffff;
+	border-bottom: 1px solid #e4e4e4;
+}
+
+#block27
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 24px 0 8px 0;
+	width: 100%;
+	height: auto;
+	background: #fbfbfb;
+	overflow: hidden;	
+}
+
+#block28
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 0 0 10px 0;
+	width: 100%;	
+	background: #fbfbfb;
+	border-bottom: 1px solid #e4e4e4;
+}
 
 .block6wrapper
 {
@@ -650,13 +771,30 @@ body #cdawrap a:hover.carbon-poweredby {
 	width: 90%;
 }
 
+
 .block6item
 {	
 	padding: 16px 0 0 16px;
 	margin: 24px 0 24px 0;
 	text-align: left;
 	float: left;
-	width: 50%;}
+	width: 50%;	}
+	
+.block23item
+{	
+	padding: 16px 0 0 16px;
+	margin: 24px 0 24px 0;
+	text-align: left;
+	float: left;
+	width: 100%;	}
+	
+.block27item
+{	
+	padding: 16px 0 0 16px;
+	margin: 24px 0 0px 0;
+	text-align: left;
+	float: left;
+	width: 100%;	}
 	
 .block6altitem
 {	
@@ -672,6 +810,33 @@ body #cdawrap a:hover.carbon-poweredby {
 	height: 300px;
 	vertical-align:bottom;
 }
+
+.block22wrapper
+{
+	margin: 0 auto;
+	text-align: center;
+	width: 90%;
+}
+
+.block22item
+{	
+	padding: 16px 0 0 16px;
+	margin: 24px 0 24px 0;
+	text-align: left;
+	float: left;
+	width: 50%;	}
+	
+.block22text
+{	
+	color: #1c1d22;}
+	
+.block23text
+{	
+	color: #1c1d22;}
+
+.block25text
+{	
+	color: #1c1d22;}	
 
 h1
 {
@@ -736,8 +901,40 @@ img
 	height: auto;
 }
 
+/* Image grid */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
 
+/* Create four equal columns that sits next to each other */
+.column {
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
 
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  .column {
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    flex: 100%;
+    max-width: 100%;
+  }
+}
 
 
 
