@@ -1,0 +1,988 @@
+/* General Blueprint Style */
+
+@font-face {
+	font-family: 'bpicons';
+	font-weight: normal;
+	font-style: normal;
+	src: url('../fonts/bpicons/bpicons.eot');
+	src: url('../fonts/bpicons/bpicons.eot?#iefix') format('embedded-opentype'), url('../fonts/bpicons/bpicons.woff') format('woff'), url('../fonts/bpicons/bpicons.ttf') format('truetype'), url('../fonts/bpicons/bpicons.svg#bpicons') format('svg');
+}/* Icon font */
+
+/* Resets */
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+
+/* Helper classes */
+
+.cf:before,
+.cf:after {
+	content: ' ';
+	display: table;
+}
+
+.cf:after {
+	clear: both;
+}
+
+
+/* Main styles */
+
+body {
+	font-family: 'Inter', sans-serif;
+	overflow: hidden;
+	margin: 0;
+	color: #213442;
+	background: #F5F7FA;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+a {
+	text-decoration: none;
+	color: #213442;
+	outline: none;
+	opacity: 0.87;
+}
+
+a:hover {
+	color: #0000FE;
+}
+
+.container {
+	overflow-y: auto;
+	height: 100vh;
+}
+
+a.langactive {
+	text-decoration: none;
+	outline: none;
+	color: #a4c4ce;
+	font-weight: normal;
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: 4px;
+}
+
+a.lang {
+	text-decoration: none;
+	outline: none;
+	color: #fff;
+	opacity: 0.87;
+	font-weight: normal;
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: 4px;
+}
+
+div.myphoto  {
+	width: 100%;
+	padding: 0;
+	margin: 0 auto;
+	background-color: #000;
+	text-align: center;
+}
+
+
+/* Blueprint header */
+
+.bp-header {
+	display: -webkit-flex;
+	display: flex;
+}
+
+.bp-header__main {
+	margin: 0 0 0 auto;
+	padding: 2em 3em 0;
+	text-align: right;
+}
+
+.bp-header__title {
+	font-size: 1.3em;
+	color: #ffffff;
+	font-weight: 400;
+	line-height: 1.3;
+	margin: 0.25em 0 0;
+}
+
+.bp-header__present {
+	font-size: 0.75em;
+	font-weight: 700;
+	position: relative;
+	z-index: 100;
+	display: block;
+	margin: 0 -8px 0 0;
+	padding: 0 0 0.6em 0;
+	text-indent: 3px;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+	color: #a4c4ce;
+}
+
+.bp-tooltip:after {
+	position: relative;
+	top: -8px;
+	left: -8px;
+	display: inline-block;
+	width: 0;
+	height: 0;
+}
+
+.bp-tooltip:hover:before {
+	content: attr(data-content);
+	font-size: 110%;
+	font-weight: 700;
+	line-height: 1.2;
+	position: absolute;
+	top: 1.5em;
+	right: 0;
+	width: 50vw;
+	padding: 0.8em 1em;
+	text-align: right;
+	text-indent: 0;
+	letter-spacing: 0;
+	text-transform: none;
+	color: #fff;
+	background: #4699ff;
+}
+
+.bp-nav {
+	margin: 0.5em 0 24px auto;
+	text-align: right;
+}
+
+.bp-nav__item {
+	position: relative;
+	display: inline-block;
+	text-align: left;
+	font-weight: normal;
+}
+
+.bp-nav__item > span {
+	display: none;
+}
+
+.bp-nav__item:hover:before {
+	content: attr(data-info);
+	font-size: 0.85em;
+	font-weight: bold;
+	position: absolute;
+	top: 120%;
+	right: 0;
+	width: 600%;
+	text-align: right;
+	pointer-events: none;
+	color: #a4c4ce;
+
+}
+
+.bp-nav__item:hover {
+
+}
+
+.bp-icon:after {
+	font-family: 'bpicons';
+	font-weight: normal;
+	font-style: normal;
+	font-variant: normal;
+	text-align: center;
+	text-transform: none;
+	color: #a4c4ce;
+	-webkit-font-smoothing: antialiased;
+	speak: none;
+}
+
+.bp-nav .bp-icon:after {
+	line-height: 2.4;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	text-indent: 0;
+}
+
+.bp-nav a:hover:after {
+	color: #fff;
+}
+
+.bp-icon--next:after {
+	content: '\e000';
+}
+
+.bp-icon--drop:after {
+	content: '\e001';
+}
+
+.bp-icon--archive:after {
+	content: '\e002';
+}
+
+.bp-icon--about:after {
+	content: '\e003';
+}
+
+.bp-icon--prev:after {
+	content: '\e004';
+}
+
+.dummy-logo {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 300px;
+	height: 120px;
+	padding: 1em 0 0 0;
+	text-align: center;
+	color: #a4c4ce;
+	background: #1c1d22;
+}
+
+.dummy-icon {
+	font-size: 4em;
+}
+
+.dummy-heading {
+	font-size: 0.75em;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+}
+
+.content {
+	position: relative;
+	min-height: 300px;
+	margin: 0;
+}
+
+.content--loading {
+	background: url(../images/loading.svg) no-repeat 50% 50%;
+}
+
+.products {
+	margin: 0;
+	padding: 2em;
+	text-align: center;
+}
+
+.product {
+	display: inline-block;
+	width: 250px;
+	height: 250px;
+	margin: 10px;
+	border-radius: 5px;
+	background: #1c1d22;
+}
+
+.product .foodicon {
+	font-size: 4em;
+	line-height: 240px;
+	color: #3b3d4a;
+}
+
+.info {
+	font-size: 1.1em;
+	font-weight: normal;
+	padding: 20vh 1em 0;
+	text-align: center;
+	color: #a4c4ce;
+}
+
+body #cdawrap {
+	top: auto;
+	bottom: 15px;
+	background: rgba(0, 0, 0, 0.1);
+}
+
+body #cdawrap .carbon-text {
+	color: #505158;
+}
+
+body #cdawrap a.carbon-poweredby {
+	color: #7883c4;
+}
+
+body #cdawrap a:hover.carbon-poweredby {
+	color: #fff;
+}
+
+@media screen and (max-width: 40em) {
+	.block2item ,
+	.block6item {
+	min-width: 100%;
+	margin: 4px 0 16px 0 !important;
+	}
+	.bp-header  {
+	padding-top: 3em;
+	}
+	.navarr {
+	padding-top: 3em;
+	}
+	.leftarr,
+	.rarr {
+	padding-top: 4em;
+	}
+	.blocks
+    {
+    }
+
+.avatar
+		{
+				float: none !important;
+		}
+
+#block6
+		{
+			padding: 24px 0 0 0 !important;
+		}
+
+.teazer
+		{
+		    margin: 24px 0 0 0 !important;
+		}
+
+
+
+    .block6wrapper {
+	min-width: 90%;
+    }
+
+	.bp-header__main,
+	.bp-nav {
+		width: 100%;
+		text-align: center;
+	}
+	.dummy-logo {
+		display: none;
+	}
+	.content {
+		margin: 0;
+	}
+	body,
+	.container {
+		height: auto;
+		overflow: auto;
+	}
+}
+
+
+/* New styles */
+
+.navarr {
+	min-height: 84px;
+}
+
+.leftarr
+{
+	text-align: left;
+	float: left;
+	height: 84px;
+	width: 84px;
+}
+
+.rarr
+{
+	text-align: right;
+	margin-right: 0px;
+	float: right;
+	height: 84px;
+	width: 84px;
+}
+
+.descript
+{
+	margin: 0 auto;
+	text-align: center;
+	width: 100%;
+	height: 84px;
+	position: absolute;
+	z-index: -99999;
+	padding-top: 16px;
+}
+
+.opisanietext
+{
+	font-size: 16px;
+	line-height: 1;
+	position: relative;
+	color: #a4c4ce;
+}
+
+.stranica
+{
+	width: 80%;
+	max-width: 1024px;
+	background: #f9f9f9;
+	margin: 0 auto;
+	color: #000000;
+	overflow: hidden;
+}
+
+.page
+{
+	padding: 20px 48px 20px 48px;
+	margin-bottom: 40px;
+}
+/* Work page styles */
+
+.block1
+{
+	margin: 0 auto;
+	text-align: center;
+	background: url(../images/bgmed.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block2
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 24px 0 0 0;
+	width: 100%;
+	height: auto;
+}
+
+.block2wrapper
+{
+	margin: 0 auto;
+	text-align: center;
+	width: 90%;
+}
+
+.block2item
+{
+	padding: 16px 0 0 16px;
+	margin: 24px 0 24px 0;
+	text-align: left;
+	float: left;
+	width: 33%;
+}
+
+.block2image
+{
+	margin: 0 0 20px 0;
+	width: 144px;
+	height: 144px;
+	vertical-align:bottom;
+}
+
+.block99image
+{
+	margin-bottom: 0px;
+	width: 100%;
+	vertical-align:bottom;
+}
+
+#block3
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 24px 0 0 0;
+	width: 100%;
+	background: #383940;
+}
+
+#block4
+{
+	margin: 0 auto;
+	text-align: center;
+	width: 100%;
+	background: url(../images/medfinal.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block5
+{
+	margin: 0 auto;
+	text-align: center;
+	background: url(../images/minimaintro.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block6
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 24px 0 0 0;
+	width: 100%;
+	height: auto;
+	background: #F5F7FA;
+	overflow: hidden;
+}
+
+#block7
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 800px 0 0 0;
+	width: 100%;
+	background: #F5F7FA;
+}
+
+#block8
+{
+	margin: 0 auto;
+	text-align: center;
+	width: 100%;
+	background: url(../images/minimafinal.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block9
+{
+	margin: 0 auto;
+	text-align: center;
+	background: url(../images/yointro.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block10
+{
+	margin: 0 auto;
+	text-align: center;
+	width: 100%;
+	background: url(../images/yofinal.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block11
+{
+	margin: 0 auto;
+	text-align: center;
+	background: url(../images/iintro.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block12
+{
+	margin: 0 auto;
+	text-align: center;
+	width: 100%;
+	background: url(../images/ifinal.png);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+.block13
+{
+	margin: 0 auto;
+	text-align: center;
+	background: url(../images/bgsala.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+
+#block14
+{
+	margin: 0 auto;
+	text-align: center;
+	width: 100%;
+	background: url(../images/salafinal.png);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block15
+{
+	margin: 0 auto;
+	text-align: center;
+	width: 100%;
+	background: url(../images/inacorfinal.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block16
+{
+	margin: 0 auto;
+	text-align: center;
+	background: url(../images/inacorintro.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block17
+{
+	margin: 0 auto;
+	text-align: center;
+	background: url(../images/craftintro.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block18
+{
+	margin: 0 auto;
+	text-align: center;
+	width: 100%;
+	background: url(../images/cleverfinal.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block19
+{
+	margin: 0 auto;
+	text-align: center;
+	background: url(../images/zozhintro.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block20
+{
+	margin: 0 auto;
+	text-align: center;
+	width: 100%;
+	background: url(../images/yofinal.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block21
+{
+	margin: 0 auto;
+	text-align: center;
+	background: url(../images/headerphoto.png);
+    min-height: 400px;
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block22
+{
+margin: 0 auto;
+	text-align: left;
+	background: url(../images/mountain.jpg);
+	-moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+	background-size: cover; /* Масштабируем фон */
+}
+
+#block23
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 24px 0 48px 0;
+	width: 100%;
+	height: auto;
+	background: #fbfbfb;
+	overflow: hidden;
+	border-bottom: 1px solid #e4e4e4;
+}
+
+#block24
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 24px 0 0 0;
+	width: 100%;
+	background: #ffffff;
+	border-bottom: 1px solid #e4e4e4;
+}
+
+#block25
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 24px 0 48px 0;
+	width: 100%;
+	height: auto;
+	background: #24242e;
+	overflow: hidden;
+	border-bottom: 1px solid #e4e4e4;
+}
+
+#block26
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 0 0 10px 0;
+	width: 100%;
+	background: #ffffff;
+	border-bottom: 1px solid #e4e4e4;
+}
+
+#block27
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 24px 0 8px 0;
+	width: 100%;
+	height: auto;
+	background: #F5F7FA;
+	overflow: hidden;
+}
+
+#block28
+{
+	margin: 0 auto;
+	text-align: center;
+	padding: 0 0 10px 0;
+	width: 100%;
+	background: #fbfbfb;
+	border-bottom: 1px solid #e4e4e4;
+}
+
+.block6wrapper
+{
+	margin: 0 auto;
+	text-align: left;
+	width: 50%;
+}
+
+
+.block6item
+{
+	padding: 48px 0 48px 24px;
+	margin: 0 3% 0 0;
+	text-align: left;
+	float: left;
+	width: 30%;
+	border-radius: 8px;
+	background-color: #ffffff;
+}
+
+.block23item
+{
+	padding: 16px 0 0 16px;
+	margin: 24px 0 24px 0;
+	text-align: left;
+	float: left;
+	width: 100%;	}
+
+.block27item
+{
+	padding: 0;
+	margin: 0;
+	text-align: left;
+	float: left;
+	width: 100%;	}
+
+.teazer
+{
+    padding: 4px 24px 4px 24px;
+    background: #FFF0E1;
+		margin: 32px 0 0 0;
+}
+
+.block6altitem
+{
+	padding: 16px 0 0 16px;
+	margin: 24px 0 24px 0;
+	text-align: left;
+	float: left;}
+
+.block6image
+{
+	margin: 0 auto;
+	width: 300px;
+	height: 300px;
+	vertical-align:bottom;
+}
+
+.block22wrapper
+{
+	margin: 0 auto;
+	text-align: center;
+	width: 90%;
+}
+
+.block22item
+{
+	padding: 16px 0 0 16px;
+	margin: 24px 0 24px 0;
+	text-align: left;
+	float: left;
+	width: 50%;	}
+
+.block22text
+{
+	color: #1c1d22;}
+
+.block23text
+{
+	color: #213442;}
+
+.block25text
+{
+	color: #1c1d22;}
+
+.avatar
+{
+		height: 96px;
+		width: 96px;
+		background: url(../images/alexnike.jpg) no-repeat;
+		border-radius: 80px;
+		float:left;
+		margin: 4px 24px 0 0;
+}
+
+.header
+{
+		width: auto;
+}
+
+h1
+{
+	display: block;
+	font-size: 2.5em;
+	font-family: 'Inter', sans-serif;
+	font-weight: bold;
+	margin: 0.30em 0em 0.30em 0em;
+	word-wrap: break-word;
+	opacity: 0.87;
+}
+
+h2
+{
+	display: block;
+	font-size: 1.5em;
+	font-family: 'Inter', sans-serif;
+	font-weight: 600;
+	margin: 0.30em 0em 0.30em 0em;
+	line-height: 1.3;
+	word-wrap: break-word;
+	opacity: 0.87;
+}
+
+h3
+{
+	display: block;
+	font-size: 1.25em;
+	line-height: 1.3;
+	font-family: 'Inter', sans-serif;
+	font-weight: 600;
+	margin: 0em 0em 0em 0em;
+	word-wrap: break-word;
+}
+
+p
+{
+	display: block;
+	font-size: 16px;
+	line-height: 24px;
+	font-family: 'Inter', sans-serif;
+	font-weight: normal;
+	margin: 1em 0em 1em 0em;
+	word-wrap: break-word;
+	opacity: 0.87;
+}
+
+.caption
+{
+	display: block;
+	font-size: 12px;
+	line-height: 24px;
+	font-family: 'Inter', sans-serif;
+	font-weight: normal;
+	margin: 1em 0em 1em 0em;
+	word-wrap: break-word;
+	opacity: 0.87;
+}
+
+img
+{
+	max-width: 100%;
+	width: auto;
+	height: auto;
+}
+
+/* Image grid */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create four equal columns that sits next to each other */
+.column {
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  .column {
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    flex: 100%;
+    max-width: 100%;
+  }
+}
