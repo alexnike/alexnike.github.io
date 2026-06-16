@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=375, initial-scale=1.0" />
+  <title>Пакет — Главная</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --grey-5: #f7f7f9;
+      --grey-10: #f0f3f7;
+      --grey-20: #e9ecf0;
+      --grey-50: #afbfcd;
+      --grey-60: #92a3b2;
+      --grey-80: #5e6974;
+      --grey-90: #535b62;
+      --black: #1e1e24;
+      --blue-10: #ebf5ff;
+      --blue-20: #ddefff;
+      --blue-70: #0088fe;
+      --blue-80: #0075db;
+      --green-10: #e5ffe2;
+      --orange-10: #ffece4;
+      --white: #ffffff;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --radius-4xl: 32px;
+      --sp-xxs: 2px;
+      --sp-xs: 4px;
+      --sp-sm: 8px;
+      --sp-md: 12px;
+      --sp-lg: 16px;
+      --sp-xl: 20px;
+      --sp-2xl: 24px;
+      --sp-4xl: 32px;
+      --sp-6xl: 48px;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: #e0e0e0;
+      display: flex;
+      justify-content: center;
+      padding: 24px 0 48px;
+    }
+
+    .phone-frame {
+      width: 375px;
+      background: var(--grey-5);
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 0px; /* место под фиксированный bottombar */
+    }
+
+    /* ─── Header ─── */
+    .header {
+      padding: var(--sp-lg);
+      display: flex;
+      flex-direction: column;
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: -6px;
+    }
+    .header-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--grey-80);
+      line-height: 18px;
+      padding-top: 1px;
+    }
+    .header-logo {
+      height: 24px;
+      width: 81px;
+      object-fit: contain;
+    }
+    .header-status {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .header-status-text {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--black);
+      line-height: 32px;
+    }
+    .status-dot {
+      width: 16px;
+      height: 16px;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .status-dot-inner {
+      width: 8px;
+      height: 8px;
+      background: #3cd45a;
+      border-radius: 50%;
+    }
+
+    /* ─── Cards block ─── */
+    .cards-block {
+      display: flex;
+      gap: var(--sp-sm);
+      padding: 0 var(--sp-lg);
+    }
+    /* Внешний контейнер несёт градиент; дочерние карточки прозрачны по умолчанию */
+    .card-main {
+      flex: 1;
+      height: 136px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      isolation: isolate;
+      background: linear-gradient(to bottom,
+        #ffae00 0%,
+        #ffae00 9%,
+        #ff7300 89%,
+        #ff3000 109%);
+    }
+    /* Белая часть поверх градиентного фона (z-3) */
+    .card-left {
+      width: 139px;
+      background: white;
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 8px;
+      position: relative;
+      z-index: 3;
+      flex-shrink: 0;
+    }
+    .card-left-top { padding: 2px; }
+    .card-left-title { font-size: 16px; font-weight: 700; color: var(--black); line-height: 22px; }
+    .card-left-sub { font-size: 12px; font-weight: 500; color: var(--grey-60); line-height: 16px; }
+    .card-left-bottom { padding: 3px 2px 2px; }
+    .card-left-label { font-size: 12px; font-weight: 600; color: var(--black); line-height: 16px; }
+
+    /* Оранжевая часть: прозрачна — сквозь неё виден градиент родителя (z-2) */
+    .card-middle {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      z-index: 2;
+    }
+    .card-middle-top { padding: 8px; }
+    .card-middle-top-inner { padding: 2px; }
+    .card-middle-title { font-size: 16px; font-weight: 700; color: white; line-height: 22px; }
+    .card-middle-sub { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.8); line-height: 16px; }
+    .card-middle-bottom { padding: 8px; }
+    .card-middle-cta { font-size: 12px; font-weight: 600; color: white; line-height: 16px; padding: 3px 2px 2px; }
+
+    /* Монеты: абсолютно позиционированы внутри card-main, за текстом (z-1) */
+    .card-coins {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 134px;
+      overflow: hidden;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .card-coins img:first-child {
+      position: absolute;
+      right: -42px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 83px;
+      height: 83px;
+    }
+    .card-coins img:last-child {
+      position: absolute;
+      left: -37px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 74px;
+      height: 74px;
+    }
+
+    .card-family {
+      width: 109px;
+      height: 136px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+      /* Скриншот узла Figma — содержит градиент, текст и аватары */
+      background: url('images/family-card-full.png') center / cover no-repeat;
+    }
+
+    /* ─── Banner ─── */
+    .banner-section {
+      padding: var(--sp-sm) var(--sp-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-sm);
+    }
+    /* Баннер: скриншот узла Figma 8017:2020 (343×114px) */
+    .banner-ad {
+      width: 100%;
+      height: 114px;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      background: url('images/banner-full.png') center / cover no-repeat;
+    }
+    .dots {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .dot { border-radius: 50px; background: var(--black); }
+    .dot.active { width: 6px; height: 6px; opacity: 0.6; }
+    .dot.inactive { width: 4px; height: 4px; opacity: 0.2; }
+
+    /* ─── White page section ─── */
+    .page-section {
+      background: white;
+      border-radius: var(--radius-4xl);
+      display: flex;
+      flex-direction: column;
+    }
+    .page-content {
+      padding: var(--sp-lg);
+      padding-bottom: var(--sp-sm);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-md);
+    }
+
+    /* X5 Club banner */
+    .club-banner {
+      background: var(--green-10);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-sm);
+      min-height: 76px;
+      padding: var(--sp-sm) var(--sp-md) var(--sp-sm) var(--sp-sm);
+      overflow: hidden;
+    }
+    .club-banner-img { width: 62px; height: 62px; object-fit: contain; flex-shrink: 0; }
+    .club-banner-text { flex: 1; }
+    .club-banner-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      line-height: 18px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 2px;
+    }
+    .club-banner-sub {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--grey-80);
+      line-height: 16px;
+      max-height: 32px;
+      overflow: hidden;
+    }
+
+    /* Stories */
+    .stories {
+      display: flex;
+      gap: var(--sp-sm);
+      align-items: center;
+    }
+    .story-card {
+      flex: 1;
+      height: 135px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+    }
+    .story-card img.story-bg { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+    .story-card-label {
+      position: relative;
+      padding: var(--sp-sm);
+      font-size: 12px;
+      font-weight: 700;
+      color: white;
+      line-height: 16px;
+    }
+
+    /* Offers */
+    .offers-section {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-md);
+      padding-bottom: var(--sp-lg);
+    }
+    .offers-heading {
+      padding: var(--sp-lg) var(--sp-lg) 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--black);
+      line-height: 24px;
+    }
+    .offers-inner {
+      padding: 0 var(--sp-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-xl);
+    }
+    .offers-listing {
+      display: flex;
+      gap: 2px;
+    }
+    .offer-card {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-xs);
+    }
+    .offer-logos {
+      position: relative;
+      width: 72px;
+      height: 72px;
+      flex-shrink: 0;
+    }
+    .offer-logo {
+      position: absolute;
+      border: 1px solid var(--grey-20);
+      border-radius: 50%;
+      background: white;
+      overflow: hidden;
+    }
+    .offer-logo.single        { inset: 0; }
+    .offer-logo.top-left      { top: 0; left: 0; right: 27.78%; bottom: 27.78%; }
+    .offer-logo.bottom-right  { top: 27.78%; left: 27.78%; right: 0; bottom: 0; }
+
+    /* Обёртка логотипа: абсолютный inset из Figma, img заполняет её */
+    .partner-img-wrap { position: absolute; }
+    .partner-img-wrap img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      display: block;
+    }
+    .offer-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: #222429;
+      line-height: 22px;
+      text-align: center;
+      width: 100%;
+      padding-left: 4px;
+    }
+    .offer-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(30,30,36,0.5);
+      line-height: 16px;
+      text-align: center;
+      width: 100%;
+      padding-left: 2px;
+    }
+    /* btn-all: type=secondary, states из дизайн-системы */
+    .btn-all {
+      /* default: bg blue/10 #ebf5ff, text blue/80 #0075db */
+      background: #ebf5ff;
+      border-radius: var(--radius-md);
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 500;
+      color: #0075db;
+      line-height: 22px;
+      cursor: pointer;
+      border: none;
+      width: 100%;
+      font-family: 'Manrope', sans-serif;
+      user-select: none;
+      transition: background-color 0.15s ease, transform 0.1s ease, color 0.15s ease;
+    }
+
+    /* hover: bg blue/5 #f5faff */
+    .btn-all:hover:not(:disabled) {
+      background: #f5faff;
+    }
+
+    /* pressed: bg blue/10 (как default) + лёгкое уменьшение */
+    .btn-all:active:not(:disabled) {
+      background: #ebf5ff;
+      transform: scale(0.98);
+    }
+
+    /* disabled: bg grey/5 #f7f7f9, text grey/60 #92a3b2 */
+    .btn-all:disabled {
+      background: #f7f7f9;
+      color: #92a3b2;
+      cursor: not-allowed;
+    }
+
+    /* ─── Footer ─── */
+    .footer {
+      border-top: 1px solid var(--grey-10);
+      padding: var(--sp-6xl) var(--sp-2xl) var(--sp-4xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-4xl);
+    }
+    .footer-logo { height: 40px; width: 56px; object-fit: contain; }
+    .footer-block { display: flex; flex-direction: column; gap: var(--sp-lg); }
+    .footer-text { font-size: 16px; font-weight: 500; color: var(--grey-90); line-height: 22px; }
+    .footer-buttons { display: flex; gap: var(--sp-md); align-items: center; }
+    .btn-support {
+      background: #0088fe;
+      border-radius: var(--radius-md);
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 var(--sp-xl);
+      font-size: 16px;
+      font-weight: 500;
+      color: white;
+      line-height: 22px;
+      cursor: pointer;
+      border: none;
+      white-space: nowrap;
+      font-family: 'Manrope', sans-serif;
+    }
+    .social-buttons { display: flex; gap: var(--sp-md); }
+    .social-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .social-btn img { width: 24px; height: 24px; object-fit: contain; }
+    .social-vk { background: var(--blue-10); }
+    .social-ok { background: var(--orange-10); }
+    .footer-divider { height: 1px; background: var(--grey-10); width: 100%; }
+    .footer-links { display: flex; flex-direction: column; gap: var(--sp-lg); }
+    .footer-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--grey-90);
+      line-height: 18px;
+      text-decoration: underline;
+      text-decoration-skip-ink: none;
+    }
+    .footer-copy { font-size: 14px; font-weight: 500; color: var(--grey-90); line-height: 18px; }
+
+    /* ─── Bottom bar ─── */
+    .bottombar {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 375px;
+      background: white;
+      border-top: 1px solid var(--grey-5);
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 8px 2px;
+      z-index: 100;
+    }
+    .tab {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      height: 44px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .tab-icon { width: 24px; height: 24px; object-fit: contain; }
+    .tab-label {
+      font-size: 10px;
+      font-weight: 600;
+      line-height: 13px;
+      color: var(--grey-50);
+    }
+    .tab-label.active { color: #0088fe; }
+
+    /* ─── Модальное окно ─── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.25);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .modal-overlay.is-open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Панель скользит вниз из-за верхнего края */
+    .modal-panel {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%) translateY(-105%);
+      width: 375px;
+      border-radius: 0 0 24px 24px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .modal-overlay.is-open .modal-panel {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .modal-iframe {
+      display: block;
+      width: 375px;
+      height: 510px;
+      border: none;
+    }
+
+    /* Курсор на кликабельной оранжевой зоне */
+    .card-middle { cursor: pointer; }
+  </style>
+</head>
+<body>
+<div class="phone-frame">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-top">
+      <span class="header-label">Евгения, ваш</span>
+      <img class="header-logo" src="images/logo-paket.png" alt="Пакет" />
+    </div>
+    <div class="header-status">
+      <span class="header-status-text">активен</span>
+      <div class="status-dot"><div class="status-dot-inner"></div></div>
+    </div>
+  </div>
+
+  <!-- Cards -->
+  <div class="cards-block">
+    <!-- Внешний контейнер с градиентным фоном -->
+    <div class="card-main">
+      <!-- Белая карточка (z-3) -->
+      <div class="card-left">
+        <div class="card-left-top">
+          <div class="card-left-title">5%</div>
+          <div class="card-left-sub">с «Пакетом»</div>
+        </div>
+        <div class="card-left-bottom">
+          <div class="card-left-label">Ваш текущий кешбэк</div>
+        </div>
+      </div>
+      <!-- Оранжевая область (z-2): прозрачная, показывает градиент родителя -->
+      <div class="card-middle">
+        <div class="card-middle-top">
+          <div class="card-middle-top-inner">
+            <div class="card-middle-title">11%</div>
+            <div class="card-middle-sub">с Апельсином</div>
+          </div>
+        </div>
+        <div class="card-middle-bottom">
+          <div class="card-middle-cta">Прокачайте выгоду</div>
+        </div>
+      </div>
+      <!-- Монеты-декорации (z-1): под текстом оранжевой области -->
+      <div class="card-coins">
+        <img src="images/orange-coin-1.svg" alt="" />
+        <img src="images/orange-coin-2.svg" alt="" />
+      </div>
+    </div>
+    <!-- Family card -->
+    <div class="card-family">
+    </div>
+  </div>
+
+  <!-- Banner section -->
+  <div class="banner-section">
+    <div class="banner-ad"></div>
+  </div>
+
+  <!-- White page section -->
+  <div class="page-section">
+    <div class="page-content">
+
+      <!-- X5 Club banner -->
+      <div class="club-banner">
+        <img class="club-banner-img" src="images/x5-club.png" alt="X5 Клуб" />
+        <div class="club-banner-text">
+          <div class="club-banner-title">Выбирайте любимые категории</div>
+          <div class="club-banner-sub">Получайте кешбэк до 20%</div>
+        </div>
+      </div>
+
+      <!-- Stories -->
+      <div class="stories">
+        <div class="story-card">
+          <img class="story-bg" src="images/story-1.png" alt="" />
+          <div class="story-card-label">Как работает «Пакет»</div>
+        </div>
+        <div class="story-card">
+          <img class="story-bg" src="images/story-2.png" alt="" />
+          <div class="story-card-label">Когда обновляются предложения</div>
+        </div>
+        <div class="story-card">
+          <img class="story-bg" src="images/story-3.png" alt="" />
+          <div class="story-card-label">Что такое опции</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Offers section -->
+    <div class="offers-section">
+      <div class="offers-heading">Кешбэк и промокоды</div>
+      <div class="offers-inner">
+        <div class="offers-listing">
+
+          <!-- Пятёрочка (bottom-right) + Перекрёсток (top-left) -->
+          <div class="offer-card">
+            <div class="offer-logos">
+              <!-- Перекрёсток: inset 17.86% всех сторон -->
+              <div class="offer-logo top-left">
+                <div class="partner-img-wrap" style="top:17.86%;right:17.86%;bottom:17.86%;left:17.86%">
+                  <img src="images/partner-perekrestok.svg" alt="" />
+                </div>
+              </div>
+              <!-- Пятёрочка: inset 10.71% всех сторон -->
+              <div class="offer-logo bottom-right">
+                <div class="partner-img-wrap" style="top:10.71%;right:10.71%;bottom:10.71%;left:10.71%">
+                  <img src="images/partner-pyatyorochka.svg" alt="" />
+                </div>
+              </div>
+            </div>
+            <div class="offer-value">5%</div>
+            <div class="offer-label">На покупки</div>
+          </div>
+
+          <!-- Литрес: два SVG-слоя -->
+          <div class="offer-card">
+            <div class="offer-logos">
+              <div class="offer-logo single">
+                <!-- Основной логотип: inset 44.26% 28.44% 40.91% 15.5% -->
+                <div class="partner-img-wrap" style="top:44.26%;right:28.44%;bottom:40.91%;left:15.5%">
+                  <img src="images/partner-litres-main.svg" alt="" />
+                </div>
+                <!-- Маленькая точка: inset 46.28% 14.08% 44.61% 75.92% -->
+                <div class="partner-img-wrap" style="top:46.28%;right:14.08%;bottom:44.61%;left:75.92%">
+                  <img src="images/partner-litres-small.svg" alt="" />
+                </div>
+              </div>
+            </div>
+            <div class="offer-value">20%</div>
+            <div class="offer-label">Литрес</div>
+          </div>
+
+          <!-- ФрутоНяня: inset 20.45% 20.06% -->
+          <div class="offer-card">
+            <div class="offer-logos">
+              <div class="offer-logo single">
+                <div class="partner-img-wrap" style="top:20.45%;right:20.06%;bottom:20.45%;left:20.06%">
+                  <img src="images/partner-frutonyanya.svg" alt="" />
+                </div>
+              </div>
+            </div>
+            <div class="offer-value">30%</div>
+            <div class="offer-label">ФрутоНяня</div>
+          </div>
+
+          <!-- KARI Kids (top-left) + KARI (bottom-right, фиолетовый) -->
+          <div class="offer-card">
+            <div class="offer-logos">
+              <!-- KARI Kids: тень + белый фон + логотип -->
+              <div class="offer-logo top-left">
+                <!-- Тень (за белым фоном): inset 17.35% 21.93% -->
+                <div class="partner-img-wrap" style="top:17.35%;right:21.93%;bottom:17.35%;left:21.93%">
+                  <img src="images/partner-karikids-shadow.svg" alt="" />
+                </div>
+                <!-- Белый фон поверх тени + логотип внутри -->
+                <div style="position:absolute;inset:0;background:white;overflow:hidden;">
+                  <!-- Логотип: inset 21.08% 25.14% -->
+                  <div class="partner-img-wrap" style="top:21.08%;right:25.14%;bottom:21.08%;left:25.14%">
+                    <img src="images/partner-karikids-logo.svg" alt="" />
+                  </div>
+                </div>
+              </div>
+              <!-- KARI: фиолетовый фон + текст KARI: inset 37.87% 10.72% 38.26% 10.72% -->
+              <div class="offer-logo bottom-right" style="background:#ae2483;">
+                <div class="partner-img-wrap" style="top:37.87%;right:10.72%;bottom:38.26%;left:10.72%">
+                  <img src="images/partner-kari-text.svg" alt="" />
+                </div>
+              </div>
+            </div>
+            <div class="offer-value">3000 ₽</div>
+            <div class="offer-label">KARI</div>
+          </div>
+
+        </div>
+        <button class="btn-all">Посмотреть все</button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <img class="footer-logo" src="images/logo-footer.svg" alt="Пакет" />
+      <div class="footer-block">
+        <p class="footer-text">Задавайте вопросы и следите за новостями сервиса</p>
+        <div class="footer-buttons">
+          <button class="btn-support">Написать в поддержку</button>
+          <div class="social-buttons">
+            <div class="social-btn social-vk">
+              <img src="images/icon-vk.svg" alt="VK" />
+            </div>
+            <div class="social-btn social-ok">
+              <img src="images/icon-ok.svg" alt="OK" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-divider"></div>
+      <div class="footer-links">
+        <a class="footer-link" href="https://x5paket.ru/docs/terms_of_use.pdf" target="_blank">Политика конфиденциальности</a>
+        <a class="footer-link" href="https://x5paket.ru/docs/privacy_policy.pdf" target="_blank">Пользовательское соглашение</a>
+        <a class="footer-link" href="https://x5club.ru/docs/X5Club_loyalty_rules_5.pdf" target="_blank">Правила программы лояльности «X5 Клуб»</a>
+        <a class="footer-link" href="https://myapelsin.ru/loyality_service_terms" target="_blank">Условия сервиса лояльности Апельсин</a>
+      </div>
+      <p class="footer-copy">© 2021–2026<br />ПАО «Корпоративный центр ИКС 5»</p>
+    </div>
+  </div>
+
+  <!-- Bottom navigation bar -->
+  <div class="bottombar">
+    <div class="tab">
+      <img class="tab-icon" src="images/tab-home.svg" alt="Главная" />
+      <span class="tab-label active">Главная</span>
+    </div>
+    <a class="tab" href="moy-paket.html">
+      <img class="tab-icon" src="images/tab-offers.svg" alt="Мой Пакет" />
+      <span class="tab-label">Мой Пакет</span>
+    </a>
+    <div class="tab">
+      <img class="tab-icon" src="images/tab-cashback.svg" alt="Кешбэк" />
+      <span class="tab-label">Кешбэк</span>
+    </div>
+    <div class="tab">
+      <img class="tab-icon" src="images/tab-settings.svg" alt="Управление" />
+      <span class="tab-label">Управление</span>
+    </div>
+  </div>
+
+</div>
+
+  <!-- ─── Модальное окно (apelsin-offer) ─── -->
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal-panel">
+      <iframe id="modal-iframe" class="modal-iframe"
+              src="apelsin-offer.html" scrolling="no"></iframe>
+    </div>
+  </div>
+
+  <script>
+    var overlay = document.getElementById('modal-overlay');
+
+    /* Открыть при клике на оранжевую карточку */
+    document.querySelector('.card-middle').addEventListener('click', openModal);
+
+    function openModal() {
+      /* Всегда сбрасываем на стартовую страницу модалки */
+      var iframe = document.getElementById('modal-iframe');
+      iframe.src = 'apelsin-offer.html';
+      document.body.style.overflow = 'hidden';
+      overlay.classList.add('is-open');
+    }
+
+    function closeModal() {
+      overlay.classList.remove('is-open');
+      /* Восстановить скролл после завершения анимации закрытия */
+      setTimeout(function () { document.body.style.overflow = ''; }, 350);
+    }
+
+    /* Клик по затемнённому фону → закрыть */
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeModal();
+    });
+
+    /* Сообщения от iframe */
+    window.addEventListener('message', function (e) {
+      var data = e.data;
+
+      /* Закрыть модалку */
+      if (data === 'close-modal' || (data && data.type === 'close-modal')) {
+        closeModal();
+        return;
+      }
+
+      /* Открыть другую страницу в той же модалке */
+      if (data && data.type === 'open-page') {
+        document.getElementById('modal-iframe').src = data.url;
+        return;
+      }
+
+      /* Iframe сообщает свою высоту → подгоняем размер */
+      if (data && data.type === 'set-height') {
+        document.getElementById('modal-iframe').style.height = data.height + 'px';
+      }
+    });
+  </script>
+</body>
+</html>

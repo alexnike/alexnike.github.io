@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=375, initial-scale=1.0" />
+  <title>Мой Пакет</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --grey-5: #f7f7f9;
+      --grey-20: #e9ecf0;
+      --grey-80: #5e6974;
+      --grey-90: #535b62;
+      --black: #1e1e24;
+      --blue-10: #ebf5ff;
+      --blue-20: #ddefff;
+      --blue-70: #0088fe;
+      --blue-80: #0075db;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: #e0e0e0;
+      display: flex;
+      justify-content: center;
+      padding: 24px 0 48px;
+    }
+
+    .phone-frame {
+      width: 375px;
+      background: var(--grey-5);
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 0px; /* место под bottombar */
+    }
+
+    /* ─── Баннер «Настройте сервис» ─── */
+    .activation-offers {
+      background: white;
+      border-radius: var(--radius-lg);
+      margin: 16px 0px 16px;
+      padding: 16px 16px 16px;
+    }
+
+    .activation-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .activation-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: var(--blue-20);
+      flex-shrink: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Точные размеры/позиция из Figma: img 40.2×40.452px,
+       центр смещён на -2.32px/-1.78px от центра контейнера */
+    .activation-icon img {
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      left: 55%;
+      top: 55%;
+      transform: translate(calc(-50% - 2.32px), calc(-50% - 1.78px));
+      max-width: none;
+      object-fit: cover;
+      object-position: bottom;
+    }
+
+    .activation-text {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--grey-80);
+      line-height: 18px;
+    }
+
+    .activation-btn {
+      background: var(--blue-10);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      flex-shrink: 0;
+      font-family: 'Manrope', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--blue-80);
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+      white-space: nowrap;
+    }
+    .activation-btn:hover { background: #ddefff; }
+
+    /* ─── Заголовок «Доступно сейчас» ─── */
+    .page-heading {
+      padding: 16px 16px 0;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 24px;
+      color: black;
+    }
+
+    /* ─── Чипсы (фильтр + Пятёрочка + Перекрёсток) ─── */
+    .chips-row {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding: 16px 16px 12px;
+      overflow-x: auto;
+    }
+
+    .chip-icon-btn {
+      background: white;
+      border: 1px solid var(--grey-20);
+      border-radius: 999px;
+      width: 40px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: border-color 0.15s ease;
+    }
+    .chip-icon-btn:hover { border-color: #c9d2da; }
+    .chip-icon-btn img { width: 24px; height: 24px; }
+
+    .chip {
+      background: white;
+      border: 1px solid var(--grey-20);
+      border-radius: 999px;
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+      white-space: nowrap;
+    }
+    .chip:hover { border-color: #c9d2da; }
+    .chip.selected { border-color: var(--blue-70); background: var(--blue-10); }
+    .chip img { width: 24px; height: 24px; flex-shrink: 0; }
+    .chip span {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--grey-90);
+      line-height: 22px;
+      padding: 0 2px 0 0;
+    }
+    .chip.selected span { color: var(--blue-80); }
+
+    /* ─── Галерея (раздел предложений) ─── */
+    .gallery {
+      background: white;
+      border-radius: var(--radius-lg);
+      margin: 0px;
+      padding: 16px 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .gallery-title {
+      padding: 0 16px;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 22px;
+      color: black;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 0px;
+    }
+
+    /* Карточка-строка: реальная HTML/CSS-разметка (не картинка).
+       Иконка — фон, обрезанный до левых 80×80px скриншота узла Figma
+       (там уже находится сама иллюстрация + бейджи партнёров). */
+    .card-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      height: 80px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      text-decoration: none;
+      padding: 0px 16px 0px 16px;
+      margin: 0px;
+      transition: background-color 0.15s ease;
+    }
+   
+
+    /* Иконка карточки: квадрат 80×80 без скругления и без обрезки.
+       Скриншот-источник уже содержит две совмещённые «иллюстрации» Figma:
+       цветной круг (фон) + бейджи логотипов партнёров поверх него,
+       выходящие за пределы круга в углы квадрата (на белом фоне).
+       Скругление контейнера обрезало бы именно эти уголки с логотипами,
+       поэтому рамка остаётся прямоугольной — белые поля сливаются
+       с белым фоном галереи и визуально неразличимы. */
+    .card-icon {
+      width: 80px;
+      height: 80px;
+      flex-shrink: 0;
+      background-repeat: no-repeat;
+      background-position: 0 0;
+      background-size: 343px 80px; /* реальный размер скриншота-источника */
+    }
+
+    .card-text {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: black;
+      line-height: 22px;
+    }
+
+    .card-subtitle {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--grey-90);
+      line-height: 16px;
+    }
+
+    .card-chevron {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      opacity: 0.35;
+    }
+
+    /* ─── Единая белая панель: «Доступно сейчас» + чипсы + все галереи ─── */
+    .content-panel {
+      background: #ffffff;
+      padding-left: 0;
+      padding-right: 0;
+      margin-left: 0;
+      margin-right: 0;
+      border-radius: 16px;
+    }
+
+    /* ─── Нижняя навигация (как на главной) ─── */
+    .bottombar {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 375px;
+      background: white;
+      border-top: 1px solid var(--grey-5);
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 8px 2px;
+      z-index: 100;
+    }
+    .tab {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      height: 44px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .tab-icon { width: 24px; height: 24px; object-fit: contain; }
+    .tab-label { font-size: 10px; font-weight: 600; line-height: 13px; color: #afbfcd; }
+    .tab-label.active { color: #0088fe; }
+  </style>
+</head>
+<body>
+<div class="phone-frame">
+
+  <!-- Баннер настройки сервиса -->
+  <div class="activation-offers">
+    <div class="activation-row">
+      <div class="activation-icon"><img src="images/mp-banner-icon.png" alt="" /></div>
+      <p class="activation-text">Настройте сервис <br> «Пакет» для себя</p>
+      <button class="activation-btn" onclick="window.location.href='Settings.html'">Настроить</button>
+    </div>
+  </div>
+
+  <div class="content-panel">
+
+  <!-- Заголовок -->
+  <h2 class="page-heading">Доступно сейчас</h2>
+
+  <!-- Чипсы -->
+  <div class="chips-row">
+    <button class="chip-icon-btn" aria-label="Фильтры">
+      <img src="images/mp-chip-filter.svg" alt="" />
+    </button>
+    <div class="chip" data-filter="pyatyorochka">
+      <img src="images/mp-chip-pyatyorochka.svg" alt="" />
+      <span>Пятёрочка</span>
+    </div>
+    <div class="chip" data-filter="perekrestok">
+      <img src="images/mp-chip-perekrestok.svg" alt="" />
+      <span>Перекрёсток</span>
+    </div>
+  </div>
+
+  <!-- Галерея 1: Супер предложение -->
+  <div class="gallery">
+    <p class="gallery-title">Супер предложение</p>
+    <div class="card-list">
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-01.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 5%</p>
+          <p class="card-subtitle">на покупки в «Пятёрочке» и «Перекрёстке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Галерея 2: Списание кешбэка -->
+  <div class="gallery">
+    <p class="gallery-title">Списание кешбэка</p>
+    <div class="card-list">
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-02.png)"></div>
+        <div class="card-text">
+          <p class="card-title">До 100% списания кешбэка на покупки</p>
+          <p class="card-subtitle">в «Пятёрочке» и «Перекрёстке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Галерея 3: Бесплатные доставки -->
+  <div class="gallery">
+    <p class="gallery-title">Бесплатные доставки</p>
+    <div class="card-list">
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-03.png)"></div>
+        <div class="card-text">
+          <p class="card-title">3 за 0₽ с кешбэком 5%</p>
+          <p class="card-subtitle">из «Пятёрочки»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-04.png)"></div>
+        <div class="card-text">
+          <p class="card-title">3 за 0₽ с кешбэком 5%</p>
+          <p class="card-subtitle">из «Перекрёстка»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Галерея 4: Любимые категории -->
+  <div class="gallery">
+    <p class="gallery-title">Любимые категории</p>
+    <div class="card-list">
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-05.png)"></div>
+        <div class="card-text">
+          <p class="card-title">2 дополнительно</p>
+          <p class="card-subtitle">в «Пятёрочке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-06.png)"></div>
+        <div class="card-text">
+          <p class="card-title">2 дополнительно</p>
+          <p class="card-subtitle">в «Перекрёстке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Галерея 5: На кофе или чай -->
+  <div class="gallery">
+    <p class="gallery-title">На кофе или чай</p>
+    <div class="card-list">
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-07.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 50%</p>
+          <p class="card-subtitle">в «Пятёрочке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-08.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 50%</p>
+          <p class="card-subtitle">в «Перекрёстке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Галерея 6: На выпечку -->
+  <div class="gallery">
+    <p class="gallery-title">На выпечку</p>
+    <div class="card-list">
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-09.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 10% на сладкую выпечку</p>
+          <p class="card-subtitle">в «Пятёрочке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-10.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 10% на сладкую выпечку</p>
+          <p class="card-subtitle">в «Перекрёстке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-11.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 20% на не сладкую выпечку</p>
+          <p class="card-subtitle">в «Пятёрочке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-12.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 20% на не сладкую выпечку</p>
+          <p class="card-subtitle">в «Перекрёстке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Галерея 7: На готовую еду -->
+  <div class="gallery">
+    <p class="gallery-title">На готовую еду</p>
+    <div class="card-list">
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-13.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 20% на первые блюда</p>
+          <p class="card-subtitle">в «Пятёрочке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-14.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 20% на первые блюда</p>
+          <p class="card-subtitle">в «Перекрёстке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-15.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 10% на вторые блюда</p>
+          <p class="card-subtitle">в «Пятёрочке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-16.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 10% на вторые блюда</p>
+          <p class="card-subtitle">в «Перекрёстке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Галерея 8: На товары для здоровья -->
+  <div class="gallery">
+    <p class="gallery-title">На товары для здоровья</p>
+    <div class="card-list">
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-17.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 20%</p>
+          <p class="card-subtitle">в «Пятёрочке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-18.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 20%</p>
+          <p class="card-subtitle">в «Перекрёстке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Галерея 9: На товары с Полки -->
+  <div class="gallery">
+    <p class="gallery-title">На товары с Полки</p>
+    <div class="card-list">
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-19.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 30%</p>
+          <p class="card-subtitle">в «Перекрёстке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Галерея 10: На предложения Х5 -->
+  <div class="gallery">
+    <p class="gallery-title">На предложения Х5</p>
+    <div class="card-list">
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-20.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 5%</p>
+          <p class="card-subtitle">за покупки в «Много лосося»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-21.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Скидка 25%</p>
+          <p class="card-subtitle">на доставку через 5Post</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Галерея 11: На отдельные товары -->
+  <div class="gallery">
+    <p class="gallery-title">На отдельные товары</p>
+    <div class="card-list">
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-22.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 10% на печенье «Юбилейное»</p>
+          <p class="card-subtitle">в «Пятёрочке» и «Перекрёстке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-23.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 10% на снеки МясоТакМясо</p>
+          <p class="card-subtitle">в «Пятёрочке» и «Перекрёстке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-24.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 15% на шоколад Milka EXTRA</p>
+          <p class="card-subtitle">в «Пятёрочке» и «Перекрёстке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-25.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Кешбэк 10% на печенье OREO</p>
+          <p class="card-subtitle">в «Пятёрочке» и «Перекрёстке»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Галерея 12: На предложения партнёров -->
+  <div class="gallery">
+    <p class="gallery-title">На предложения партнёров</p>
+    <div class="card-list">
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-26.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Скидка 20%</p>
+          <p class="card-subtitle">на Литрес и две книги в подарок</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-27.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Скидка 10%</p>
+          <p class="card-subtitle">на отели в OneTwoTrip</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-28.png)"></div>
+        <div class="card-text">
+          <p class="card-title">3000 рублей</p>
+          <p class="card-subtitle">на покупки в KARI</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="card-row" href="#">
+        <div class="card-icon" style="background-image:url(images/mp-card-29.png)"></div>
+        <div class="card-text">
+          <p class="card-title">Скидка 23%</p>
+          <p class="card-subtitle">на покупки в «Читай-город» и «Буквоед»</p>
+        </div>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#92A3B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  </div>
+  <!-- /content-panel -->
+
+  <!-- Нижняя навигация -->
+  <div class="bottombar">
+    <a class="tab" href="paket-main.html">
+      <img class="tab-icon" src="images/tab-home-grey.svg" alt="Главная" />
+      <span class="tab-label">Главная</span>
+    </a>
+    <div class="tab">
+      <img class="tab-icon" src="images/tab-offers-blue.svg" alt="Мой Пакет" />
+      <span class="tab-label active">Мой Пакет</span>
+    </div>
+    <div class="tab">
+      <img class="tab-icon" src="images/tab-cashback.svg" alt="Кешбэк" />
+      <span class="tab-label">Кешбэк</span>
+    </div>
+    <div class="tab">
+      <img class="tab-icon" src="images/tab-settings.svg" alt="Управление" />
+      <span class="tab-label">Управление</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  /* Переключение чипсов фильтра */
+  document.querySelectorAll('.chip').forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      chip.classList.toggle('selected');
+    });
+  });
+
+  /* Кнопка фильтров — открыть filter.html (если вне iframe, просто переход) */
+  document.querySelector('.chip-icon-btn').addEventListener('click', function () {
+    window.location.href = 'filter.html';
+  });
+</script>
+</body>
+</html>

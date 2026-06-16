@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=375, initial-scale=1.0" />
+  <title>Пакет — Уровни кешбэка</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: #c0c0c0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    /* ─── Обёртка телефона ─── */
+    .phone-frame {
+      width: 375px;
+      min-height: 100vh;
+      background: #1a1a2e;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    /* ─── Bottom sheet ─── */
+    .bottom-sheet {
+      width: 375px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+      border-radius: 0 0 24px 24px;
+      /* Двойной градиент из Figma */
+      background:
+        linear-gradient(179.83deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0) 31.72%),
+        linear-gradient(180deg,
+          #ffae00  0.8%,
+          #ffae00 10.8%,
+          #ff7300 67.6%,
+          #ff3000 100.5%);
+    }
+
+    /* ─── Заголовок модалки ─── */
+    .modal-header {
+      width: 100%;
+      padding: 8px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .modal-header-row {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      padding: 8px 0 4px;
+    }
+
+    .btn-close {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 12px;
+      flex-shrink: 0;
+    }
+
+    .btn-close img { width: 24px; height: 24px; }
+
+    /* ─── Основной контент ─── */
+    .content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Блок иллюстрация + текст */
+    .pic-text {
+      width: 100%;
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Карточка Апельсин */
+    .card-pic {
+      width: 185px;
+      height: 148px;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .card-pic img {
+      position: absolute;
+      width: 92.5%;
+      height: 115.62%;
+      left: 5%;
+      top: -2.08%;
+      max-width: none;
+    }
+
+    /* Текст + прогресс */
+    .text-and-progress {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* Заголовок и подзаголовок */
+    .text-block {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      color: white;
+      text-align: center;
+    }
+
+    .text-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 24px;
+    }
+
+    .text-sub {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 18px;
+      opacity: 0.9;
+    }
+
+    /* ─── Блок прогресса ─── */
+    /* Внешняя обёртка: 343px (16px padding внутри 375px) */
+    .progress-outer {
+      width: 100%;
+      padding: 0;
+    }
+
+    /* Карточка: полупрозрачный белый фон, скруглённые углы */
+    .progress-card {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 24px;
+      padding: 16px;
+      overflow: hidden;
+    }
+
+    /* Контентная область 311px с position:relative для бейджа */
+    .progress-content {
+      width: 311px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative; /* для абсолютного бейджа «сейчас» */
+    }
+
+    /* ─── Ряд логотипов ─── */
+    .logo-row {
+      height: 60px;
+      position: relative;
+      width: 100%;
+    }
+
+    /* Общий стиль ячейки логотипа */
+    .logo-cell {
+      position: absolute;
+      top: 0;
+      width: 60px;
+      height: 60px;
+      background: #f7f7f9;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* X5 Клуб — left:3px */
+    .logo-x5 { left: 3px; }
+
+    /* Пакет — left:125px */
+    .logo-paket { left: 125px; }
+
+    /* Внутри Пакета: иконка + текст вертикально с gap 4px */
+    .logo-paket-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      width: 30.486px;
+    }
+
+    .logo-paket-inner img.top {
+      width: 28.936px;
+      height: 17.817px;
+    }
+
+    .logo-paket-inner img.text {
+      width: 30.485px;
+      height: 5.95px;
+    }
+
+    /* Третья ячейка (Апельсин Пай + мини-Пакет): left:247px, overflow:hidden */
+    .logo-third {
+      position: absolute;
+      left: 247px;
+      top: 0;
+      width: 60px;
+      height: 60px;
+      overflow: hidden;
+    }
+
+    /* Апельсин Пай: left:12px top:12px, 48×48px */
+    .logo-apelsin-cell {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      width: 48px;
+      height: 48px;
+      background: #f7f7f9;
+      border-radius: 12.8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /*
+      Figma использует inline-grid с col-1/row-1 для обоих элементов:
+      иконка и текст занимают одну и ту же ячейку сетки и
+      позиционируются через margin внутри неё (place-items: start).
+      Grid вычисляет размер ячейки по max-content обоих элементов:
+        ширина = max(11.49+13.434, 36.414) = 36.414px
+        высота = max(13.434, 16.42+11.214) = 27.634px
+      Центрируется flex-ом родителя.
+    */
+    .apelsin-grid {
+      display: inline-grid;
+      grid-template-columns: max-content;
+      grid-template-rows: max-content;
+      place-items: start;
+      line-height: 0;
+      flex-shrink: 0;
+    }
+
+    /* Иконка: col-1/row-1, ml:11.49px mt:0 */
+    .apelsin-grid-icon {
+      grid-column: 1;
+      grid-row: 1;
+      position: relative;
+      width: 13.434px;
+      height: 13.434px;
+      margin-left: 11.49px;
+      margin-top: 0;
+    }
+
+    .apelsin-grid-icon img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      display: block;
+    }
+
+    /* Текст: col-1/row-1, ml:0 mt:16.42px */
+    .apelsin-grid-text {
+      grid-column: 1;
+      grid-row: 1;
+      position: relative;
+      width: 36.414px;
+      height: 11.214px;
+      margin-left: 0;
+      margin-top: 16.42px;
+    }
+
+    .apelsin-grid-text img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      display: block;
+    }
+
+    /* Мини-бейдж Пакет: left:0 top:0, 30×30px, правая и нижняя границы */
+    .logo-paket-mini-cell {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 30px;
+      height: 30px;
+      background: #f7f7f9;
+      border-radius: 8px;
+      border-right: 1px solid #e9ecf0;
+      border-bottom: 1px solid #e9ecf0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Flex col, gap:2px, ширина по содержимому */
+    .logo-paket-mini-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+
+    .logo-paket-mini-inner .mini-icon {
+      position: relative;
+      width: 14.468px;
+      height: 8.909px;
+    }
+
+    .logo-paket-mini-inner .mini-icon img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      display: block;
+    }
+
+    /* Текст мини: тот же inline-grid col-1/row-1 */
+    .mini-text-grid {
+      display: inline-grid;
+      grid-template-columns: max-content;
+      grid-template-rows: max-content;
+      place-items: start;
+      line-height: 0;
+    }
+
+    .mini-text-grid-item {
+      grid-column: 1;
+      grid-row: 1;
+      position: relative;
+      width: 15.243px;
+      height: 2.975px;
+    }
+
+    .mini-text-grid-item img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      display: block;
+    }
+
+    /* ─── Прогресс-бар + подписи ─── */
+    .progress-plus-labels {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Строка с полосой прогресса */
+    .progress-track-row {
+      height: 24px;
+      position: relative;
+      width: 100%;
+      cursor: grab;
+      user-select: none;
+    }
+    .progress-track-row.dragging { cursor: grabbing; }
+
+    /* Инлайн-SVG полосы */
+    .progress-track-svg {
+      position: absolute;
+      left: 5px;
+      top: 0;
+      width: 301px;
+      height: 24px;
+      display: block;
+      pointer-events: none;
+    }
+
+    /* Блок подписей (проценты + описания) */
+    .labels-block {
+      color: white;
+      text-align: center;
+      width: 100%;
+      word-break: break-word;
+    }
+
+    /* Ряд процентов: h:22px */
+    .percent-row {
+      height: 22px;
+      position: relative;
+      width: 100%;
+    }
+
+    .percent-label {
+      position: absolute;
+      top: 0;
+      width: 66px;
+      text-align: center;
+      transform: translateX(-50%);
+      font-size: 16px;
+      font-weight: 700;
+      color: white;
+      line-height: 22px;
+    }
+
+    /* Ряд описаний: h:32px */
+    .desc-row {
+      height: 32px;
+      position: relative;
+      width: 100%;
+    }
+
+    /* Контейнер для описаний 1 и 2 (два отдельных абзаца).
+       leading-[0] на контейнере, leading-[16px] на каждом <p> — из Figma */
+    .desc-div {
+      position: absolute;
+      top: 0;
+      width: 66px;
+      text-align: center;
+      transform: translateX(-50%);
+      font-size: 12px;
+      font-weight: 500;
+      color: white;
+      opacity: 0.8;
+      line-height: 0;
+      font-feature-settings: 'lnum' 1, 'pnum' 1;
+    }
+
+    .desc-div p {
+      line-height: 16px;
+      margin: 0;
+    }
+
+    /* Описание 3 — одиночный <p> с переносом по словам, leading-[16px] */
+    .desc-p {
+      position: absolute;
+      top: 0;
+      width: 66px;
+      text-align: center;
+      transform: translateX(-50%);
+      font-size: 12px;
+      font-weight: 500;
+      color: white;
+      opacity: 0.8;
+      line-height: 16px;
+      font-feature-settings: 'lnum' 1, 'pnum' 1;
+    }
+
+    /* ─── Бейдж «сейчас» ─── */
+    /* Абсолютно позиционирован внутри .progress-content:
+       left:132px, top:74px (60px логотипы + 12px gap + 2px внутрь прогресса) */
+    .badge-now {
+      position: absolute;
+      left: 155.5px; /* начальная позиция 5%: 5 + 174 - 23.5 */
+      top: 74px;
+      width: 47px;
+      height: 20px;
+      background: #0088fe;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5px 6px 2.5px;
+      pointer-events: none;
+    }
+
+    .badge-now span {
+      font-size: 10px;
+      font-weight: 700;
+      color: white;
+      line-height: 12px;
+      white-space: nowrap;
+    }
+
+    /* ─── Футер с кнопкой ─── */
+    .modal-footer {
+      width: 375px;
+      padding: 8px 16px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 48px;
+      max-height: 48px;
+      background: white;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      padding: 12px 20px;
+      text-decoration: none;
+      font-family: 'Manrope', sans-serif;
+    }
+
+    .btn-primary span {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1e1e24;
+      line-height: 18px;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+<div class="phone-frame">
+  <div class="bottom-sheet">
+
+    <!-- Заголовок с кнопкой закрыть -->
+    <div class="modal-header">
+      <div class="modal-header-row">
+        <button class="btn-close" aria-label="Закрыть" id="btn-close">
+          <img src="images/icon-close.svg" alt="×" />
+        </button>
+      </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="content">
+
+      <!-- Иллюстрация + текст -->
+      <div class="pic-text">
+
+        <!-- Карточка Апельсин -->
+        <div class="card-pic">
+          <img src="images/apelsin-card-pic.png" alt="Апельсин" />
+        </div>
+
+        <!-- Текст и блок прогресса -->
+        <div class="text-and-progress">
+
+          <!-- Заголовок -->
+          <div class="text-block">
+            <p class="text-title">Вы в шаге от максимального кешбэка</p>
+            <p class="text-sub">До 11% с картой Апельсин в Альфа-Банке</p>
+          </div>
+
+          <!-- Прогресс-блок: полупрозрачная карточка -->
+          <div class="progress-outer">
+            <div class="progress-card">
+              <div class="progress-content">
+
+                <!-- Ряд логотипов -->
+                <div class="logo-row">
+
+                  <!-- X5 Клуб -->
+                  <div class="logo-cell logo-x5">
+                    <img src="images/logo-x5-club.svg" alt="X5 Клуб"
+                         style="width:27.417px; height:30.855px;" />
+                  </div>
+
+                  <!-- Пакет (центр) -->
+                  <div class="logo-cell logo-paket">
+                    <div class="logo-paket-inner">
+                      <img class="top" src="images/logo-paket-icon-top.svg" alt="" />
+                      <img class="text" src="images/logo-paket-icon-text.svg" alt="пакет" />
+                    </div>
+                  </div>
+
+                  <!-- Апельсин Пай + мини-Пакет (правый) -->
+                  <div class="logo-third">
+
+                    <!-- Апельсин Пай: left:12px top:12px, 48×48px -->
+                    <div class="logo-apelsin-cell">
+                      <!--
+                        inline-grid col-1/row-1: иконка и текст в одной ячейке.
+                        Figma: icon ml:11.49 mt:0; text ml:0 mt:16.42
+                        Grid auto-размер = max(11.49+13.434, 36.414) = 36.414px шир.
+                                           max(13.434, 16.42+11.214) = 27.634px выс.
+                        Flex-центр родителя центрирует этот grid.
+                      -->
+                      <div class="apelsin-grid">
+                        <div class="apelsin-grid-icon">
+                          <img src="images/logo-apelsin-icon.svg" alt="" />
+                        </div>
+                        <div class="apelsin-grid-text">
+                          <img src="images/logo-apelsin-text.svg" alt="апельсин пай" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Пакет мини-бейдж: left:0 top:0, 30×30px -->
+                    <div class="logo-paket-mini-cell">
+                      <div class="logo-paket-mini-inner">
+                        <!-- Иконка -->
+                        <div class="mini-icon">
+                          <img src="images/logo-paket-mini-icon.svg" alt="" />
+                        </div>
+                        <!-- Текст: тот же inline-grid col-1/row-1 -->
+                        <div class="mini-text-grid">
+                          <div class="mini-text-grid-item">
+                            <img src="images/logo-paket-mini-text.svg" alt="" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+                <!-- /ряд логотипов -->
+
+                <!-- Полоса прогресса + подписи -->
+                <div class="progress-plus-labels">
+
+                  <!-- Полоса: инлайн-SVG с динамическим fill -->
+                  <div class="progress-track-row" id="cl-track-row">
+                    <svg class="progress-track-svg" viewBox="0 0 301 24" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                      <g clip-path="url(#cl-clip-outer)">
+                        <!-- Фоновый трек (прозрачный белый) -->
+                        <rect width="301" height="24" rx="12" fill="white" fill-opacity="0.4"/>
+                        <!-- Белое заполнение — ширина управляется JS -->
+                        <g clip-path="url(#cl-clip-fill)">
+                          <rect id="cl-fill-rect" width="174" height="24" rx="12" fill="white"/>
+                          <!-- Синяя звезда у 5% (~150px) -->
+                          <path d="M148.812 7.51C149.004 6.13 150.996 6.13 151.188 7.51L151.437 9.29C151.493 9.70 151.752 10.04 152.123 10.22L153.632 10.91C154.563 11.34 154.563 12.66 153.632 13.09L152.123 13.78C151.752 13.96 151.493 14.30 151.437 14.71L151.188 16.49C150.996 17.87 149.004 17.87 148.812 16.49L148.563 14.71C148.507 14.30 148.248 13.96 147.877 13.78L146.368 13.09C145.437 12.66 145.437 11.34 146.368 10.91L147.877 10.22C148.248 10.04 148.507 9.70 148.563 9.29L148.812 7.51Z" fill="#0088FE"/>
+                          <!-- Зелёная звезда у 1% (~27px) -->
+                          <path opacity="0.5" d="M26.812 7.51C27.004 6.13 28.996 6.13 29.188 7.51L29.437 9.29C29.493 9.70 29.752 10.04 30.123 10.22L31.632 10.91C32.563 11.34 32.563 12.66 31.632 13.09L30.123 13.78C29.752 13.96 29.493 14.30 29.437 14.71L29.188 16.49C28.996 17.87 27.004 17.87 26.812 16.49L26.563 14.71C26.507 14.30 26.248 13.96 25.877 13.78L24.368 13.09C23.437 12.66 23.437 11.34 24.368 10.91L25.877 10.22C26.248 10.04 26.507 9.70 26.563 9.29L26.812 7.51Z" fill="#5FAF2D"/>
+                        </g>
+                        <!-- Оранжевая звезда у 11% (~272px) -->
+                        <path opacity="0.5" d="M271.812 7.51C272.004 6.13 273.996 6.13 274.188 7.51L274.437 9.29C274.493 9.70 274.752 10.04 275.123 10.22L276.632 10.91C277.563 11.34 277.563 12.66 276.632 13.09L275.123 13.78C274.752 13.96 274.493 14.30 274.437 14.71L274.188 16.49C273.996 17.87 272.004 17.87 271.812 16.49L271.563 14.71C271.507 14.30 271.248 13.96 270.877 13.78L269.368 13.09C268.437 12.66 268.437 11.34 269.368 10.91L270.877 10.22C271.248 10.04 271.507 9.70 271.563 9.29L271.812 7.51Z" fill="#F76100"/>
+                      </g>
+                      <defs>
+                        <clipPath id="cl-clip-outer">
+                          <rect width="301" height="24" rx="12"/>
+                        </clipPath>
+                        <clipPath id="cl-clip-fill">
+                          <rect id="cl-clip-rect" width="174" height="24" rx="12"/>
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </div>
+
+                  <!-- Подписи -->
+                  <div class="labels-block">
+
+                    <!-- Проценты -->
+                    <div class="percent-row">
+                      <span class="percent-label" style="left:33px;">1%</span>
+                      <span class="percent-label" style="left:155.5px;">5%</span>
+                      <span class="percent-label" style="left:278px;">11%</span>
+                    </div>
+
+                    <!-- Описания: точная структура из Figma.
+                         Блоки 1/2: div с leading-0 + два <p> с leading-16px.
+                         Блок 3: одиночный <p> с word-wrap (leading-16px). -->
+                    <div class="desc-row">
+                      <div class="desc-div" style="left:33px; white-space:pre-wrap;">
+                        <p>Кешбэк </p>
+                        <p>«X5 Клуба»</p>
+                      </div>
+                      <div class="desc-div" style="left:155.5px;">
+                        <p>Кешбэк</p>
+                        <p>«Пакета»</p>
+                      </div>
+                      <p class="desc-p" style="left:278px;">«Пакет» и Апельсин</p>
+                    </div>
+
+                  </div>
+                </div>
+                <!-- /полоса + подписи -->
+
+                <!-- Бейдж «сейчас» — абсолютно поверх полосы прогресса
+                     top:74px = 60px (логотипы) + 12px (gap) + 2px (внутрь полосы) -->
+                <div class="badge-now">
+                  <span>сейчас</span>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <!-- /прогресс-блок -->
+
+        </div>
+      </div>
+      <!-- /иллюстрация + текст -->
+
+      <!-- Кнопка -->
+      <div class="modal-footer">
+        <a class="btn-primary" href="https://myapelsin.ru/" target="_self">
+          <span>Оформить Апельсин</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+  <script>
+    /* ── Интерактивный слайдер прогресса (apelsin-cashback-levels) ── */
+    (function () {
+      var trackRow  = document.getElementById('cl-track-row');
+      var fillRect  = document.getElementById('cl-fill-rect');
+      var clipRect  = document.getElementById('cl-clip-rect');
+      var badge     = document.querySelector('.badge-now');
+
+      var TRACK_W   = 301;   /* ширина SVG в px */
+      var TRACK_OFF = 5;     /* left offset SVG внутри track-row */
+      var BADGE_W   = 47;
+      var HALF_B    = BADGE_W / 2; /* 23.5 */
+
+      /* fill.width при снэпе к 1% / 5% / 11% */
+      var SNAPS = [51.5, 174, 296.5];
+
+      var dragging = false;
+
+      /* ── Применить ширину заполнения ── */
+      function apply(w, animate) {
+        w = Math.max(SNAPS[0], Math.min(TRACK_W - HALF_B, w));
+        /* SVG: обновляем fill-rect и clip-rect */
+        fillRect.setAttribute('width', w);
+        clipRect.setAttribute('width', w);
+        /* Бейдж: left = TRACK_OFF + fill_width - HALF_B */
+        badge.style.transition = animate ? 'left 0.22s ease' : 'none';
+        badge.style.left = (TRACK_OFF + w - HALF_B) + 'px';
+      }
+
+      /* ── Ближайший снэп ── */
+      function nearest(w) {
+        return SNAPS.reduce(function (best, s) {
+          return Math.abs(s - w) < Math.abs(best - w) ? s : best;
+        });
+      }
+
+      /* ── Координата X из события ── */
+      function clientX(e) {
+        return (e.touches ? e.touches[0] : e).clientX;
+      }
+
+      /* ── Позиция внутри SVG-трека ── */
+      function trackX(e) {
+        /* SVG позиционирован left:5px внутри track-row */
+        return clientX(e) - trackRow.getBoundingClientRect().left - TRACK_OFF;
+      }
+
+      function onStart(e) {
+        e.preventDefault();
+        dragging = true;
+        trackRow.classList.add('dragging');
+        apply(trackX(e), false);
+      }
+
+      function onMove(e) {
+        if (!dragging) return;
+        e.preventDefault();
+        apply(trackX(e), false);
+      }
+
+      function onEnd() {
+        if (!dragging) return;
+        dragging = false;
+        trackRow.classList.remove('dragging');
+        apply(nearest(parseFloat(fillRect.getAttribute('width')) || 174), true);
+      }
+
+      trackRow.addEventListener('mousedown',  onStart);
+      trackRow.addEventListener('touchstart', onStart, { passive: false });
+      document.addEventListener('mousemove',  onMove);
+      document.addEventListener('touchmove',  onMove, { passive: false });
+      document.addEventListener('mouseup',    onEnd);
+      document.addEventListener('touchend',   onEnd);
+
+      /* Инициализация: 5% */
+      apply(174, false);
+    }());
+    /* ── конец слайдера ── */
+
+    var inIframe = window.self !== window.top;
+
+    /* Закрытие: крестик */
+    document.getElementById('btn-close').addEventListener('click', function () {
+      if (inIframe) {
+        window.parent.postMessage({ type: 'close-modal' }, '*');
+      } else {
+        window.history.back();
+      }
+    });
+
+    /* В iframe: убрать тёмный фрейм и сообщить высоту родителю */
+    if (inIframe) {
+      var frame = document.querySelector('.phone-frame');
+      if (frame) {
+        frame.style.cssText =
+          'background:transparent; min-height:auto; justify-content:flex-start;';
+      }
+      document.body.style.cssText =
+        'background:transparent; padding:0; min-height:auto;';
+
+      window.addEventListener('load', function () {
+        var sheet = document.querySelector('.bottom-sheet');
+        if (sheet) {
+          window.parent.postMessage(
+            { type: 'set-height', height: sheet.scrollHeight }, '*'
+          );
+        }
+      });
+    }
+  </script>
+</body>
+</html>

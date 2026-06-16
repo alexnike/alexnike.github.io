@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=375, initial-scale=1.0" />
+  <title>Фильтры</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: #c0c0c0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    .phone-frame {
+      width: 375px;
+      min-height: 100vh;
+      background: #1a1a2e;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    /* ─── Модалка ─── */
+    .filters-modal {
+      width: 375px;
+      background: white;
+      border-radius: 24px 24px 0 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    /* ─── Заголовок ─── */
+    .modal-header {
+      width: 100%;
+      padding: 8px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .modal-indicator {
+      width: 60px;
+      height: 4px;
+      background: black;
+      opacity: 0.1;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .modal-header-row {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      gap: 24px;
+      padding: 8px 0 4px;
+    }
+
+    .modal-title-block {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 24px;
+      color: black;
+    }
+
+    /* ─── Контент ─── */
+    .filters-content {
+      width: 100%;
+      padding: 12px 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .filter-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .filter-section-title {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 22px;
+      color: black;
+      width: 100%;
+    }
+
+    .chips-row {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    /* Чипсы с иконкой (торговая сеть) */
+    .chip {
+      background: white;
+      border: 1px solid #e9ecf0;
+      border-radius: 999px;
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .chip:hover { border-color: #c9d2da; }
+
+    .chip.selected {
+      border-color: #0088fe;
+      background: #ebf5ff;
+    }
+
+    .chip-content {
+      display: flex;
+      align-items: center;
+      height: 24px;
+      gap: 0;
+    }
+
+    .chip-icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .chip-icon img { width: 100%; height: 100%; object-fit: contain; }
+
+    .chip-label {
+      padding: 0 2px 0 4px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #535b62;
+      white-space: nowrap;
+      line-height: 22px;
+    }
+
+    /* Чипсы без иконки (вид предложения) */
+    .chip-text {
+      background: white;
+      border: 1px solid #e9ecf0;
+      border-radius: 100px;
+      padding: 7px 8px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .chip-text:hover { border-color: #c9d2da; }
+
+    .chip-text.selected {
+      border-color: #0088fe;
+      background: #ebf5ff;
+    }
+
+    .chip-text span {
+      font-size: 16px;
+      font-weight: 500;
+      color: #535b62;
+      white-space: nowrap;
+      line-height: 22px;
+    }
+
+    .chip-text.selected span,
+    .chip.selected .chip-label { color: #0075db; }
+
+    /* ─── Футер ─── */
+    .modal-footer {
+      width: 375px;
+      padding: 8px 16px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      height: 56px;
+      background: #0088fe;
+      border-radius: 12px;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+    }
+    .btn-primary:hover { background: #0079e0; }
+    .btn-primary:active { transform: scale(0.99); }
+
+    .btn-primary span {
+      font-size: 16px;
+      font-weight: 500;
+      color: white;
+      line-height: 22px;
+      white-space: nowrap;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      height: 56px;
+      background: #ebf5ff;
+      border-radius: 12px;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      transition: background-color 0.15s ease;
+    }
+    .btn-secondary:hover { background: #f5faff; }
+
+    .btn-secondary span {
+      font-size: 16px;
+      font-weight: 500;
+      color: #0075db;
+      line-height: 22px;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+<div class="phone-frame">
+  <div class="filters-modal">
+
+    <!-- Заголовок -->
+    <div class="modal-header">
+      <div class="modal-indicator"></div>
+      <div class="modal-header-row">
+        <div class="modal-title-block">
+          <p class="modal-title">Фильтры</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Контент -->
+    <div class="filters-content">
+
+      <!-- Торговая сеть -->
+      <div class="filter-section">
+        <p class="filter-section-title">Торговая сеть</p>
+        <div class="chips-row">
+          <div class="chip" data-filter="pyatyorochka">
+            <div class="chip-content">
+              <div class="chip-icon"><img src="images/filter-icon-pyatyorochka.svg" alt="" /></div>
+              <span class="chip-label">Пятёрочка</span>
+            </div>
+          </div>
+          <div class="chip" data-filter="perekrestok">
+            <div class="chip-content">
+              <div class="chip-icon"><img src="images/filter-icon-perekrestok.svg" alt="" /></div>
+              <span class="chip-label">Перекрёсток</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Вид предложения -->
+      <div class="filter-section">
+        <p class="filter-section-title">Вид предложения</p>
+        <div class="chips-row">
+          <div class="chip-text" data-filter="cashback"><span>Кешбэк</span></div>
+          <div class="chip-text" data-filter="discount"><span>Скидка</span></div>
+          <div class="chip-text" data-filter="favorites"><span>Любимые категории</span></div>
+          <div class="chip-text" data-filter="delivery"><span>Доставки</span></div>
+          <div class="chip-text" data-filter="options"><span>Опции</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Футер -->
+    <div class="modal-footer">
+      <button class="btn-primary" id="btn-apply">
+        <span id="btn-apply-label">Показать 24 предложения</span>
+      </button>
+      <button class="btn-secondary" id="btn-reset">
+        <span>Сбросить</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  /* Переключение чипсов */
+  var chips = document.querySelectorAll('.chip, .chip-text');
+  var totalOffers = 24; /* демо-значение для "Показать X предложений" */
+
+  function updateApplyLabel() {
+    var selected = document.querySelectorAll('.chip.selected, .chip-text.selected').length;
+    var label = document.getElementById('btn-apply-label');
+    if (selected === 0) {
+      label.textContent = 'Показать ' + totalOffers + ' предложений';
+    } else {
+      /* Демо-логика: каждый выбранный фильтр сокращает список */
+      var shown = Math.max(1, totalOffers - selected * 4);
+      label.textContent = 'Показать ' + shown + ' предложений';
+    }
+  }
+
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      chip.classList.toggle('selected');
+      updateApplyLabel();
+    });
+  });
+
+  /* Сбросить: все чипсы → невыбранное состояние, текст кнопки — к исходному виду */
+  document.getElementById('btn-reset').addEventListener('click', function () {
+    chips.forEach(function (c) { c.classList.remove('selected'); });
+    document.getElementById('btn-apply-label').textContent = 'Показать 24 предложения';
+  });
+
+  /* Применить — закрыть модалку (если внутри iframe) или просто залогировать */
+  document.getElementById('btn-apply').addEventListener('click', function () {
+    if (window.self !== window.top) {
+      window.parent.postMessage({ type: 'close-modal' }, '*');
+    }
+  });
+
+  /* Адаптация под iframe: убрать тёмный фон, сообщить высоту */
+  if (window.self !== window.top) {
+    document.querySelector('.phone-frame').style.cssText =
+      'background:transparent; min-height:auto; justify-content:flex-end;';
+    document.body.style.cssText =
+      'background:transparent; padding:0; min-height:auto; align-items:flex-end;';
+
+    window.addEventListener('load', function () {
+      var modal = document.querySelector('.filters-modal');
+      window.parent.postMessage(
+        { type: 'set-height', height: modal.scrollHeight }, '*'
+      );
+    });
+  }
+</script>
+</body>
+</html>

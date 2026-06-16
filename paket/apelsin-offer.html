@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=375, initial-scale=1.0" />
+  <title>Пакет — Оформить Апельсин</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: #c0c0c0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    /* ─── Фрейм телефона ─── */
+    .phone-frame {
+      width: 375px;
+      min-height: 100vh;
+      background: #1a1a2e;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    /* ─── Bottom sheet ─── */
+    .bottom-sheet {
+      width: 375px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+      border-radius: 0 0 24px 24px;
+      background:
+        linear-gradient(179.85deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0) 31.72%),
+        linear-gradient(180deg,
+          #ffae00 0.8%,
+          #ffae00 10.8%,
+          #ff7300 67.6%,
+          #ff3000 100.5%);
+    }
+
+    /* ─── Modal header ─── */
+    .modal-header {
+      width: 100%;
+      padding: 8px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .modal-header-row {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      padding: 8px 0 4px;
+    }
+
+    .btn-close {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 12px;
+      flex-shrink: 0;
+    }
+
+    .btn-close img {
+      width: 24px;
+      height: 24px;
+    }
+
+    /* ─── Content ─── */
+    .content {
+      width: 375px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ─── Pic + text ─── */
+    .pic-text {
+      width: 100%;
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Иллюстрация карты Апельсин */
+    .card-pic {
+      width: 185px;
+      height: 148px;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .card-pic img {
+      position: absolute;
+      width: 92.5%;
+      height: 115.62%;
+      left: 5%;
+      top: -2.08%;
+      max-width: none;
+    }
+
+    /* Текст */
+    .text-block {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      color: white;
+      text-align: center;
+    }
+
+    .text-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 24px;
+      color: white;
+    }
+
+    .text-sub {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 18px;
+      color: white;
+      opacity: 0.9;
+    }
+
+    /* ─── Progress bar ─── */
+    .progress-wrap {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .progress-inner {
+      width: 311px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Дорожка прогресса */
+    .progress-track-row {
+      height: 24px;
+      position: relative;
+      width: 100%;
+    }
+
+    /* Серая подложка (301px, смещена на 5px от левого края) */
+    .progress-bg {
+      position: absolute;
+      left: 5px;
+      top: 0;
+      width: 301px;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 50px;
+      overflow: hidden;
+      cursor: grab;
+      user-select: none;
+    }
+    .progress-bg.dragging { cursor: grabbing; }
+
+    /* Белое заполнение (ширина управляется JS) */
+    .progress-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 174px; /* начальная позиция: 5% */
+      height: 24px;
+      background: white;
+      border-radius: 500px;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    /* Бейдж «сейчас» — вынесен из fill, управляется JS */
+    .progress-badge {
+      position: absolute;
+      top: 2px;
+      left: 150.5px; /* начальная позиция: fill_width - badge_width/2 = 174 - 23.5 */
+      width: 47px;
+      height: 20px;
+      background: #0088fe;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5px 6px 2.5px;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .progress-badge span {
+      font-size: 10px;
+      font-weight: 700;
+      color: white;
+      line-height: 12px;
+      white-space: nowrap;
+    }
+
+    /* Звёздочки (внутри fill) */
+    .star {
+      position: absolute;
+      top: -1px;
+      width: 12px;
+      height: 26px;
+    }
+
+    .star img {
+      position: absolute;
+      /* inset: 28.77% 13.91% → top/bottom: 28.77%, left/right: 13.91% */
+      top: 28.77%;
+      left: 13.91%;
+      right: 13.91%;
+      bottom: 28.77%;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .star-in-fill-left  { left: 22px; }   /* звезда у начала fill (≈1%) */
+    .star-in-fill-right { left: 145px; }  /* звезда у конца fill (≈5%) */
+
+    /* Звезда вне fill, внутри bg (≈11%) */
+    .star-in-bg {
+      position: absolute;
+      left: 267px; /* внутри .progress-bg */
+      top: -1px;
+      width: 12px;
+      height: 26px;
+    }
+
+    .star-in-bg img {
+      position: absolute;
+      top: 28.77%;
+      left: 13.91%;
+      right: 13.91%;
+      bottom: 28.77%;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    /* Подписи под прогресс-баром */
+    .progress-labels {
+      position: relative;
+      height: 22px;
+      width: 100%;
+    }
+
+    .progress-label {
+      position: absolute;
+      top: 0;
+      width: 66px;
+      text-align: center;
+      transform: translateX(-50%);
+      font-size: 16px;
+      font-weight: 700;
+      color: white;
+      line-height: 22px;
+    }
+
+    /* ─── Footer: кнопки и текст ─── */
+    .commands {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 8px;
+    }
+
+    .modal-footer {
+      width: 375px;
+      padding: 8px 16px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 48px;
+      max-height: 48px;
+      background: white;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      padding: 12px 20px;
+      text-decoration: none;
+      font-family: 'Manrope', sans-serif;
+    }
+
+    .btn-primary span {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1e1e24;
+      line-height: 18px;
+      white-space: nowrap;
+    }
+
+    /* Нижняя строка: «Ваш уровень кешбэка» + стрелка — кликабельная */
+    .footer-text-row {
+      cursor: pointer;
+    }
+
+    .footer-text-row {
+      width: 375px;
+      padding-bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .footer-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: white;
+      line-height: 18px;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    .btn-info {
+      display: block;
+      width: 20px;
+      height: 20px;
+      position: relative;
+      background: none;
+      border: none;
+      cursor: pointer;
+      overflow: hidden;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    /* Вектор: inset точно из Figma — top 39.34%, right 18.75%, bottom 33.19%, left 18.75% */
+    .btn-info-vector {
+      position: absolute;
+      top: 39.34%;
+      right: 18.75%;
+      bottom: 33.19%;
+      left: 18.75%;
+    }
+
+    .btn-info-vector img {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+    }
+  </style>
+</head>
+<body>
+<div class="phone-frame">
+  <div class="bottom-sheet">
+
+    <!-- Modal header: кнопка закрыть -->
+    <div class="modal-header">
+      <div class="modal-header-row">
+        <button class="btn-close" aria-label="Закрыть" id="btn-close">
+          <img src="images/icon-close.svg" alt="×" />
+        </button>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+
+      <!-- Иллюстрация + текст -->
+      <div class="pic-text">
+
+        <!-- Карточка Апельсин -->
+        <div class="card-pic">
+          <img src="images/apelsin-card-pic.png" alt="Апельсин" />
+        </div>
+
+        <!-- Заголовок + прогресс -->
+        <div style="width:100%; display:flex; flex-direction:column; gap:16px; align-items:center;">
+
+          <!-- Текст -->
+          <div class="text-block">
+            <p class="text-title">Вы в шаге от максимального кешбэка</p>
+            <p class="text-sub">До 11% с картой Апельсин в Альфа-Банке</p>
+          </div>
+
+          <!-- Прогресс-бар -->
+          <div class="progress-wrap">
+            <div class="progress-inner">
+
+              <!-- Полоса -->
+              <div class="progress-track-row">
+                <!-- Серая подложка -->
+                <div class="progress-bg" id="progress-track">
+                  <!-- Белое заполнение (ширина — JS) -->
+                  <div class="progress-fill" id="progress-fill">
+                    <div class="star star-in-fill-left">
+                      <img src="images/star-2.svg" alt="" />
+                    </div>
+                    <div class="star star-in-fill-right">
+                      <img src="images/star-1.svg" alt="" />
+                    </div>
+                  </div>
+                  <!-- Бейдж: теперь сиблинг fill, позиция — JS -->
+                  <div class="progress-badge" id="progress-badge">
+                    <span>сейчас</span>
+                  </div>
+                  <!-- Звезда у 11% -->
+                  <div class="star-in-bg">
+                    <img src="images/star-3.svg" alt="" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Подписи: 1%, 5%, 11% -->
+              <div class="progress-labels">
+                <span class="progress-label" style="left: 33px;">1%</span>
+                <span class="progress-label" style="left: 155.5px;">5%</span>
+                <span class="progress-label" style="left: 278px;">11%</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CTA + инфо-текст -->
+      <div class="commands">
+        <div class="modal-footer">
+          <a class="btn-primary" href="https://myapelsin.ru/" target="_self">
+            <span>Оформить Апельсин</span>
+          </a>
+        </div>
+        <div class="footer-text-row">
+          <span class="footer-label">Ваш уровень кешбэка</span>
+          <button class="btn-info" aria-label="Подробнее">
+            <div class="btn-info-vector">
+              <img src="images/icon-chevron-down.svg" alt="" />
+            </div>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+  <script>
+    /* ── Интерактивный слайдер прогресса ── */
+    (function () {
+      var track  = document.getElementById('progress-track');
+      var fill   = document.getElementById('progress-fill');
+      var badge  = document.getElementById('progress-badge');
+
+      var TRACK_W  = 301;   /* ширина .progress-bg */
+      var BADGE_W  = 47;    /* ширина бейджа */
+      var HALF_B   = BADGE_W / 2; /* 23.5px */
+
+      /* Позиции fill.width для снэпа к 1% / 5% / 11% */
+      var SNAPS = [
+        28  + HALF_B,   /* 1%  → 51.5  px */
+        150.5 + HALF_B, /* 5%  → 174   px */
+        273 + HALF_B    /* 11% → 296.5 px */
+      ];
+
+      var dragging = false;
+
+      /* ─ Установить ширину fill и позицию бейджа ─ */
+      function apply(w, animate) {
+        w = Math.max(SNAPS[0], Math.min(TRACK_W - HALF_B, w));
+        var ease = animate ? '0.22s ease' : 'none';
+        fill.style.transition  = 'width '  + ease;
+        badge.style.transition = 'left '   + ease;
+        fill.style.width  = w + 'px';
+        badge.style.left  = (w - HALF_B) + 'px';
+      }
+
+      /* ─ Найти ближайший снэп ─ */
+      function nearest(w) {
+        return SNAPS.reduce(function (best, s) {
+          return Math.abs(s - w) < Math.abs(best - w) ? s : best;
+        });
+      }
+
+      /* ─ X клиента из mouse/touch события ─ */
+      function clientX(e) {
+        return (e.touches ? e.touches[0] : e).clientX;
+      }
+
+      /* ─ X относительно левого края трека ─ */
+      function trackX(e) {
+        return clientX(e) - track.getBoundingClientRect().left;
+      }
+
+      /* Начало перетаскивания */
+      function onStart(e) {
+        e.preventDefault();
+        dragging = true;
+        track.classList.add('dragging');
+        apply(trackX(e), false);
+      }
+
+      /* Движение */
+      function onMove(e) {
+        if (!dragging) return;
+        e.preventDefault();
+        apply(trackX(e), false);
+      }
+
+      /* Конец — снэп к ближайшей позиции */
+      function onEnd() {
+        if (!dragging) return;
+        dragging = false;
+        track.classList.remove('dragging');
+        apply(nearest(parseFloat(fill.style.width) || 174), true);
+      }
+
+      track.addEventListener('mousedown',  onStart);
+      track.addEventListener('touchstart', onStart, { passive: false });
+      document.addEventListener('mousemove',  onMove);
+      document.addEventListener('touchmove',  onMove, { passive: false });
+      document.addEventListener('mouseup',    onEnd);
+      document.addEventListener('touchend',   onEnd);
+
+      /* Начальная позиция: 5% */
+      apply(174, false);
+    }());
+    /* ── конец слайдера ── */
+
+    var inIframe = window.self !== window.top;
+
+    /* Закрытие */
+    document.getElementById('btn-close').addEventListener('click', function () {
+      if (inIframe) {
+        window.parent.postMessage({ type: 'close-modal' }, '*');
+      } else {
+        window.history.back();
+      }
+    });
+
+    /* «Ваш уровень кешбэка» + иконка стрелки → открыть cashback-levels */
+    document.querySelector('.footer-text-row').addEventListener('click', function () {
+      if (inIframe) {
+        window.parent.postMessage(
+          { type: 'open-page', url: 'apelsin-cashback-levels.html' }, '*'
+        );
+      } else {
+        window.location.href = 'apelsin-cashback-levels.html';
+      }
+    });
+
+    /* В iframe: убрать тёмный фрейм и сообщить свою высоту родителю */
+    if (inIframe) {
+      var frame = document.querySelector('.phone-frame');
+      if (frame) {
+        frame.style.cssText =
+          'background:transparent; min-height:auto; justify-content:flex-start;';
+      }
+      document.body.style.cssText =
+        'background:transparent; padding:0; min-height:auto;';
+
+      /* Отправить высоту контента после отрисовки */
+      window.addEventListener('load', function () {
+        var sheet = document.querySelector('.bottom-sheet');
+        if (sheet) {
+          window.parent.postMessage(
+            { type: 'set-height', height: sheet.scrollHeight }, '*'
+          );
+        }
+      });
+    }
+  </script>
+</body>
+</html>

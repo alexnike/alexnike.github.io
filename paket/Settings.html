@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=375, initial-scale=1.0" />
+  <title>Настройки — Пакет</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --grey-5: #f7f7f9;
+      --grey-10: #f0f3f7;
+      --grey-20: #e9ecf0;
+      --grey-50: #afbfcd;
+      --grey-80: #5e6974;
+      --grey-90: #535b62;
+      --black: #1e1e24;
+      --blue-10: #ebf5ff;
+      --blue-20: #ddefff;
+      --blue-30: #c2e2ff;
+      --blue-70: #0088fe;
+      --blue-80: #0075db;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: #e0e0e0;
+      display: flex;
+      justify-content: center;
+      padding: 24px 0 48px;
+    }
+
+    .phone-frame {
+      width: 375px;
+      background: var(--grey-5);
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 96px; /* высота footer-block (88px) + bottombar (50px) */
+    }
+
+    /* ─── Hero-заголовок ─── */
+    .offer-header {
+      background: var(--blue-20);
+      border-radius: 0 0 16px 16px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .offer-header-pic {
+      position: absolute;
+      top: -2.5px;
+      right: -22.5px;
+      width: 180px;
+      height: 178px;
+      pointer-events: none;
+    }
+    .offer-header-pic img { width: 100%; height: 100%; object-fit: contain; }
+    .offer-back-btn {
+      background: var(--blue-10);
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-sm);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 2;
+    }
+    .offer-back-btn svg { width: 16px; height: 16px; }
+    .offer-back-btn:hover { background: #ddefff; }
+    .offer-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 24px;
+      color: black;
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 2;
+      padding: 32px 0 8px 0;
+    }
+    .chips-row {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      overflow-x: auto;
+      position: relative;
+      z-index: 2;
+    }
+    .chip-icon-btn {
+      background: white;
+      border: 1px solid var(--grey-20);
+      border-radius: 999px;
+      width: 40px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: border-color 0.15s ease;
+    }
+    .chip-icon-btn:hover { border-color: #c9d2da; }
+    .chip-icon-btn img { width: 24px; height: 24px; }
+    .chip {
+      background: white;
+      border: 1px solid var(--grey-20);
+      border-radius: 999px;
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+      white-space: nowrap;
+    }
+    .chip:hover { border-color: #c9d2da; }
+    .chip.selected { border-color: var(--blue-70); background: var(--blue-10); }
+    .chip img { width: 24px; height: 24px; flex-shrink: 0; }
+    .chip span { font-size: 16px; font-weight: 500; color: var(--grey-90); line-height: 22px; padding: 0 2px 0 0; }
+    .chip.selected span { color: var(--blue-80); }
+
+    /* ─── Единая белая панель с галереями ─── */
+    .content-panel {
+      padding: 0 0 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 8px 0 0 0;
+    }
+
+    .gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 0 0 0 0;
+      padding: 16px 0 16px 0;
+      background: #ffffff;
+      border-radius: 16px;
+    }
+    .gallery-heading {
+      padding: 0 24px 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 32px;
+    }
+    .gallery-title {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 22px;
+      color: black;
+    }
+    /* Уникальный класс для заголовка «На предложения партнёров» — задайте свои свойства здесь */
+    .gallery-title--partners {
+    
+    }
+    .card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 0 16px;
+    }
+
+    /* Строка карточки */
+    .card-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      min-height: 80px;
+      border-radius: var(--radius-md);
+      padding: 0 4px;
+      margin: 0 -4px;
+    }
+    .card-row.hidden-by-filter,
+    .card-row.hidden-by-filter-2 { display: none; }
+
+    /* Иконка: квадрат 80×80 без скругления (см. пояснение в moy-paket.html —
+       скругление контейнера обрезало бы бейджи партнёров, выходящие за круг) */
+    .card-icon {
+      width: 80px;
+      height: 80px;
+      flex-shrink: 0;
+      background-repeat: no-repeat;
+      background-position: 0 0;
+      background-size: 343px 80px;
+    }
+    .card-icon.icon-80 { background-size: 80px 80px; }
+
+    .card-text {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+    }
+    .card-title { font-size: 16px; font-weight: 600; color: black; line-height: 22px; }
+    .card-subtitle { font-size: 12px; font-weight: 500; color: var(--grey-90); line-height: 16px; }
+
+    /* Кнопка «Выбрать товар» (под текстом, gallery 1 card 2) */
+    .card-text-with-btn { gap: 8px; }
+    .btn-choose {
+      background: var(--blue-10);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      align-self: flex-start;
+      font-family: 'Manrope', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--blue-80);
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+    .btn-choose:hover { background: #ddefff; }
+
+    /* ─── Чекбокс ─── */
+    .ctrl-checkbox {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      background: var(--grey-10);
+      border: none;
+      flex-shrink: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: background-color 0.15s ease;
+    }
+    .ctrl-checkbox svg { width: 12px; height: 12px; opacity: 0; transition: opacity 0.15s ease; }
+    .ctrl-checkbox.checked { background: var(--blue-70); }
+    .ctrl-checkbox.checked svg { opacity: 1; }
+
+    /* disabled: серый фон + едва заметный чекмарк #C5D1DC, не кликабелен (узел 8176:15494) */
+    .ctrl-checkbox:disabled {
+      background: var(--grey-10);
+      border: 1px solid var(--grey-20);
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .ctrl-checkbox:disabled svg { opacity: 0; }
+    .ctrl-checkbox:disabled svg.disabled-check {
+      opacity: 1;
+      width: 11px;
+      height: 8px;
+    }
+
+    /* ─── Радиокнопка ─── */
+    .ctrl-radio {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: white;
+      border: 1.5px solid var(--grey-20);
+      flex-shrink: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+    .ctrl-radio svg { width: 12px; height: 12px; opacity: 0; transition: opacity 0.15s ease; }
+    .ctrl-radio.checked { background: var(--blue-70); border-color: var(--blue-70); }
+    .ctrl-radio.checked svg { opacity: 1; }
+
+    /* ─── Кнопки вверх/вниз (количество для доставок) ─── */
+    .updown-block { display: flex; flex-direction: column; gap: 4px; width: 32px; flex-shrink: 0; }
+    .updown-btn {
+      width: 100%;
+      background: var(--blue-10);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+    .updown-btn:hover { background: #ddefff; }
+    .updown-btn svg { width: 16px; height: 16px; }
+
+    /* ─── Футер: кнопка «Сохранить» ─── */
+    /* Зафиксирован над .bottombar (50px) — вместе образуют общую нижнюю панель */
+    .footer-block {
+      position: fixed;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 375px;
+      background: white;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      padding-top: 16px;
+      padding-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 100;
+    }
+    .btn-save-wrap { padding: 0 16px; }
+    .btn-save {
+      width: 100%;
+      height: 56px;
+      background: var(--blue-70);
+      border: none;
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      transition: background-color 0.15s ease;
+    }
+    .btn-save:hover { background: #0079e0; }
+    .btn-save-title { font-size: 16px; font-weight: 500; color: white; line-height: 22px; }
+    .btn-save-sub { font-size: 10px; font-weight: 500; color: var(--blue-30); line-height: 13px; }
+
+    /* ─── Нижняя навигация ─── */
+    .bottombar {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 375px;
+      background: white;
+      border-top: 1px solid var(--grey-5);
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 8px 2px;
+      z-index: 100;
+    }
+    .tab {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      height: 44px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .tab-icon { width: 24px; height: 24px; object-fit: contain; }
+    .tab-label { font-size: 10px; font-weight: 600; line-height: 13px; color: var(--grey-50); }
+    .tab-label.active { color: var(--blue-70); }
+
+    /* ─── Модальное окно (filter.html) — то же поведение, что у apelsin-offer.html
+       на paket-main.html, но панель выезжает СНИЗУ страницы ─── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.25);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .modal-overlay.is-open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    /* Панель скользит вверх из-за нижнего края */
+    .modal-panel {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%) translateY(105%);
+      width: 375px;
+      border-radius: 24px 24px 0 0;
+      overflow: hidden;
+      box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.3);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .modal-overlay.is-open .modal-panel {
+      transform: translateX(-50%) translateY(0);
+    }
+    .modal-iframe {
+      display: block;
+      width: 375px;
+      height: 460px;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+<div class="phone-frame">
+
+  <!-- Hero-заголовок -->
+  <div class="offer-header">
+    <div class="offer-header-pic"><img src="images/nv2-header-pic.png" alt="" /></div>
+
+    <button class="offer-back-btn" aria-label="Назад" onclick="window.location.href='moy-paket.html'">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M10 3l-5 5 5 5" stroke="#0088FE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <p class="offer-title">Настройте сервис<br />«Пакет» для себя</p>
+
+    <div class="chips-row">
+      <button class="chip-icon-btn" id="open-filter-btn" aria-label="Фильтры">
+        <img src="images/mp-chip-filter.svg" alt="" />
+      </button>
+      <div class="chip" data-filter="pyatyorochka">
+        <img src="images/mp-chip-pyatyorochka.svg" alt="" />
+        <span>Пятёрочка</span>
+      </div>
+      <div class="chip" data-filter="perekrestok">
+        <img src="images/mp-chip-perekrestok.svg" alt="" />
+        <span>Перекрёсток</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Единая белая панель со всеми галереями -->
+  <div class="content-panel">
+
+    <!-- 1. Супер предложение -->
+    <div class="gallery">
+      <div class="gallery-heading"><p class="gallery-title">Супер предложение</p></div>
+      <div class="card-list">
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-01.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 5%</p>
+            <p class="card-subtitle">на покупки в «Пятёрочке» и «Перекрёстке»</p>
+          </div>
+          <button class="ctrl-radio checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="card-row">
+          <div class="card-icon icon-80" style="background-image:url(images/nv2-card-icon-cashback70.png)"></div>
+          <div class="card-text card-text-with-btn">
+            <div>
+              <p class="card-title">Кешбэк 70%</p>
+              <p class="card-subtitle">на любимый товар в «Пятёрочке» и «Перекрёстке»</p>
+            </div>
+            <button class="btn-choose">Выбрать товар</button>
+          </div>
+          <button class="ctrl-radio" aria-label="Выбрать">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Списание кешбэка -->
+    <div class="gallery">
+      <div class="gallery-heading"><p class="gallery-title">Списание кешбэка</p></div>
+      <div class="card-list">
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-02.png)"></div>
+          <div class="card-text">
+            <p class="card-title">До 100% списания кешбэка на покупки</p>
+            <p class="card-subtitle">в «Пятёрочке» и «Перекрёстке»</p>
+          </div>
+          <button class="ctrl-checkbox" aria-label="Недоступно" disabled>
+            <svg class="disabled-check" viewBox="0 0 11 8" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.7406 1.51333L4.57173 7.74C4.22825 8.08667 3.67868 8.08667 3.3352 7.74L0.257611 4.60667C-0.0858702 4.26 -0.0858702 3.7 0.257611 3.35333C0.601091 3.00667 1.15066 3.00667 1.49414 3.35333L3.9672 5.86L9.51785 0.26C9.86133 -0.0866667 10.4109 -0.0866667 10.7544 0.26C11.0841 0.606667 11.0841 1.16667 10.7406 1.51333Z" fill="#C5D1DC"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Бесплатные доставки (кнопки вверх/вниз вместо чекбокса) -->
+    <div class="gallery">
+      <div class="gallery-heading"><p class="gallery-title">Бесплатные доставки</p></div>
+      <div class="card-list">
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-03.png)"></div>
+          <div class="card-text">
+            <p class="card-title"><span id="qty-pyatyorochka">3</span> за 0₽ с кешбэком 5%</p>
+            <p class="card-subtitle">из «Пятёрочки»</p>
+          </div>
+          <div class="updown-block">
+            <button class="updown-btn" id="btn-increase-pyatyorochka" aria-label="Увеличить">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M4 10l4-4 4 4" stroke="#0088FE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="updown-btn" id="btn-decrease-pyatyorochka" aria-label="Уменьшить">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="#0088FE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-04.png)"></div>
+          <div class="card-text">
+            <p class="card-title"><span id="qty-perekrestok">3</span> за 0₽ с кешбэком 5%</p>
+            <p class="card-subtitle">из «Перекрёстка»</p>
+          </div>
+          <div class="updown-block">
+            <button class="updown-btn" id="btn-increase-perekrestok" aria-label="Увеличить">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M4 10l4-4 4 4" stroke="#0088FE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="updown-btn" id="btn-decrease-perekrestok" aria-label="Уменьшить">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="#0088FE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Любимые категории -->
+    <div class="gallery">
+      <div class="gallery-heading"><p class="gallery-title">Любимые категории</p></div>
+      <div class="card-list">
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-05.png)"></div>
+          <div class="card-text">
+            <p class="card-title">2 дополнительно</p>
+            <p class="card-subtitle">в «Пятёрочке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-06.png)"></div>
+          <div class="card-text">
+            <p class="card-title">2 дополнительно</p>
+            <p class="card-subtitle">в «Перекрёстке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Опции (уникальная секция, иконка совпадает с mp-card-03) -->
+    <div class="gallery">
+      <div class="gallery-heading"><p class="gallery-title">Опции</p></div>
+      <div class="card-list">
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-03.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Семья</p>
+            <p class="card-subtitle">возможности сервиса «Пакет» для 2 ваших близких</p>
+          </div>
+          <button class="ctrl-checkbox" aria-label="Недоступно" disabled>
+            <svg class="disabled-check" viewBox="0 0 11 8" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.7406 1.51333L4.57173 7.74C4.22825 8.08667 3.67868 8.08667 3.3352 7.74L0.257611 4.60667C-0.0858702 4.26 -0.0858702 3.7 0.257611 3.35333C0.601091 3.00667 1.15066 3.00667 1.49414 3.35333L3.9672 5.86L9.51785 0.26C9.86133 -0.0866667 10.4109 -0.0866667 10.7544 0.26C11.0841 0.606667 11.0841 1.16667 10.7406 1.51333Z" fill="#C5D1DC"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. На кофе или чай -->
+    <div class="gallery">
+      <div class="gallery-heading"><p class="gallery-title">На кофе или чай</p></div>
+      <div class="card-list">
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-07.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 50%</p>
+            <p class="card-subtitle">в «Пятёрочке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-08.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 50%</p>
+            <p class="card-subtitle">в «Перекрёстке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. На выпечку -->
+    <div class="gallery">
+      <div class="gallery-heading"><p class="gallery-title">На выпечку</p></div>
+      <div class="card-list">
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-09.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 10% на сладкую выпечку</p>
+            <p class="card-subtitle">в «Пятёрочке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-10.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 10% на сладкую выпечку</p>
+            <p class="card-subtitle">в «Перекрёстке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-11.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 20% на не сладкую выпечку</p>
+            <p class="card-subtitle">в «Пятёрочке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-12.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 20% на не сладкую выпечку</p>
+            <p class="card-subtitle">в «Перекрёстке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. На готовую еду -->
+    <div class="gallery">
+      <div class="gallery-heading"><p class="gallery-title">На готовую еду</p></div>
+      <div class="card-list">
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-13.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 20% на первые блюда</p>
+            <p class="card-subtitle">в «Пятёрочке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-14.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 20% на первые блюда</p>
+            <p class="card-subtitle">в «Перекрёстке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-15.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 10% на вторые блюда</p>
+            <p class="card-subtitle">в «Пятёрочке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-16.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 10% на вторые блюда</p>
+            <p class="card-subtitle">в «Перекрёстке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. На товары для здоровья -->
+    <div class="gallery">
+      <div class="gallery-heading"><p class="gallery-title">На товары для здоровья</p></div>
+      <div class="card-list">
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-17.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 20%</p>
+            <p class="card-subtitle">в «Пятёрочке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-18.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 20%</p>
+            <p class="card-subtitle">в «Перекрёстке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10. На товары с Полки -->
+    <div class="gallery">
+      <div class="gallery-heading"><p class="gallery-title">На товары с Полки</p></div>
+      <div class="card-list">
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-19.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 30%</p>
+            <p class="card-subtitle">в «Перекрёстке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11. На предложения Х5 -->
+    <div class="gallery">
+      <div class="gallery-heading"><p class="gallery-title">На предложения Х5</p></div>
+      <div class="card-list">
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-20.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 5%</p>
+            <p class="card-subtitle">за покупки в «Много лосося»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-21.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Скидка 25%</p>
+            <p class="card-subtitle">на доставку через 5Post</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12. На отдельные товары -->
+    <div class="gallery">
+      <div class="gallery-heading"><p class="gallery-title">На отдельные товары</p></div>
+      <div class="card-list">
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-22.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 10% на печенье «Юбилейное»</p>
+            <p class="card-subtitle">в «Пятёрочке» и «Перекрёстке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-23.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 10% на снеки МясоТакМясо</p>
+            <p class="card-subtitle">в «Пятёрочке» и «Перекрёстке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-24.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 15% на шоколад Milka EXTRA</p>
+            <p class="card-subtitle">в «Пятёрочке» и «Перекрёстке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-25.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Кешбэк 10% на печенье OREO</p>
+            <p class="card-subtitle">в «Пятёрочке» и «Перекрёстке»</p>
+          </div>
+          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 13. На предложения партнёров: один чекбокс на весь блок, без чекбоксов у карточек -->
+    <div class="gallery">
+      <div class="gallery-heading">
+        <p class="gallery-title gallery-title--partners">На предложения партнёров</p>
+        <button class="ctrl-checkbox checked" aria-label="Выбрана вся категория">
+          <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="card-list">
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-26.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Скидка 20%</p>
+            <p class="card-subtitle">на Литрес и две книги в подарок</p>
+          </div>
+        </div>
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-27.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Скидка 10%</p>
+            <p class="card-subtitle">на отели в OneTwoTrip</p>
+          </div>
+        </div>
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-28.png)"></div>
+          <div class="card-text">
+            <p class="card-title">3000 рублей</p>
+            <p class="card-subtitle">на покупки в KARI</p>
+          </div>
+        </div>
+        <div class="card-row">
+          <div class="card-icon" style="background-image:url(images/mp-card-29.png)"></div>
+          <div class="card-text">
+            <p class="card-title">Скидка 23%</p>
+            <p class="card-subtitle">на покупки в «Читай-город» и «Буквоед»</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Футер: кнопка «Сохранить» -->
+  <div class="footer-block">
+    <div class="btn-save-wrap">
+      <button class="btn-save">
+        <span class="btn-save-title">Сохранить</span>
+        <span class="btn-save-sub">стоимость возрастёт на 99₽/мес</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Нижняя навигация -->
+  <div class="bottombar">
+    <a class="tab" href="paket-main.html">
+      <img class="tab-icon" src="images/tab-home-grey.svg" alt="Главная" />
+      <span class="tab-label">Главная</span>
+    </a>
+    <a class="tab" href="moy-paket.html">
+      <img class="tab-icon" src="images/tab-offers-blue.svg" alt="Мой Пакет" />
+      <span class="tab-label active">Мой Пакет</span>
+    </a>
+    <div class="tab">
+      <img class="tab-icon" src="images/tab-cashback.svg" alt="Кешбэк" />
+      <span class="tab-label">Кешбэк</span>
+    </div>
+    <div class="tab">
+      <img class="tab-icon" src="images/tab-settings.svg" alt="Управление" />
+      <span class="tab-label">Управление</span>
+    </div>
+  </div>
+
+</div>
+
+  <!-- ─── Модальное окно (filter.html), выезжает снизу ─── -->
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal-panel">
+      <iframe id="modal-iframe" class="modal-iframe"
+              src="filter.html" scrolling="no"></iframe>
+    </div>
+  </div>
+
+<script>
+  /* Чипсы фильтра */
+  document.querySelectorAll('.chip').forEach(function (chip) {
+    chip.addEventListener('click', function () { chip.classList.toggle('selected'); });
+  });
+
+  /* Чип «Пятёрочка»: скрывает все строки, где есть текст
+     «Перекрёстке» или «Перекрёстка» (и показывает обратно при отключении) */
+  var pyatyorochkaChip = document.querySelector('.chip[data-filter="pyatyorochka"]');
+  pyatyorochkaChip.addEventListener('click', function () {
+    var isSelected = pyatyorochkaChip.classList.contains('selected');
+    document.querySelectorAll('.card-row').forEach(function (row) {
+      var text = row.textContent;
+      var mentionsPerekrestok = text.indexOf('Перекрёстке') !== -1 || text.indexOf('Перекрёстка') !== -1;
+      if (isSelected && mentionsPerekrestok) {
+        row.classList.add('hidden-by-filter');
+      } else {
+        row.classList.remove('hidden-by-filter');
+      }
+    });
+  });
+
+  /* Чип «Перекрёсток»: скрывает все строки, где есть текст
+     «Пятёрочке» или «Пятёрочки» (и показывает обратно при отключении) */
+  var perekrestokChip = document.querySelector('.chip[data-filter="perekrestok"]');
+  perekrestokChip.addEventListener('click', function () {
+    var isSelected = perekrestokChip.classList.contains('selected');
+    document.querySelectorAll('.card-row').forEach(function (row) {
+      var text = row.textContent;
+      var mentionsPyatyorochka = text.indexOf('Пятёрочке') !== -1 || text.indexOf('Пятёрочки') !== -1;
+      if (isSelected && mentionsPyatyorochka) {
+        row.classList.add('hidden-by-filter-2');
+      } else {
+        row.classList.remove('hidden-by-filter-2');
+      }
+    });
+  });
+
+  /* Чекбоксы — переключение */
+  document.querySelectorAll('.ctrl-checkbox').forEach(function (cb) {
+    cb.addEventListener('click', function () { cb.classList.toggle('checked'); });
+  });
+
+  /* Радиокнопки — только одна выбрана внутри своей группы (.card-list) */
+  document.querySelectorAll('.ctrl-radio').forEach(function (radio) {
+    radio.addEventListener('click', function () {
+      var group = radio.closest('.card-list');
+      group.querySelectorAll('.ctrl-radio').forEach(function (r) { r.classList.remove('checked'); });
+      radio.classList.add('checked');
+    });
+  });
+
+  /* Кнопка увеличения в строке «Перекрёсток»: значение +1 (не выше 6),
+     а в строке «Пятёрочка» значение одновременно -1 (не ниже 0).
+     Если Перекрёсток уже на максимуме — Пятёрочка не меняется. */
+  document.getElementById('btn-increase-perekrestok').addEventListener('click', function () {
+    var qtyPerekrestok = document.getElementById('qty-perekrestok');
+    var qtyPyatyorochka = document.getElementById('qty-pyatyorochka');
+
+    var currentPerekrestok = parseInt(qtyPerekrestok.textContent, 10);
+    if (currentPerekrestok >= 6) return;
+
+    qtyPerekrestok.textContent = currentPerekrestok + 1;
+    qtyPyatyorochka.textContent = Math.max(0, parseInt(qtyPyatyorochka.textContent, 10) - 1);
+  });
+
+  /* Кнопка уменьшения в строке «Перекрёсток»: значение -1 (не ниже 0),
+     а в строке «Пятёрочка» значение одновременно +1 (не выше 6).
+     Если Пятёрочка уже на максимуме — Перекрёсток не меняется. */
+  document.getElementById('btn-decrease-perekrestok').addEventListener('click', function () {
+    var qtyPerekrestok = document.getElementById('qty-perekrestok');
+    var qtyPyatyorochka = document.getElementById('qty-pyatyorochka');
+
+    var currentPyatyorochka = parseInt(qtyPyatyorochka.textContent, 10);
+    if (currentPyatyorochka >= 6) return;
+
+    qtyPyatyorochka.textContent = currentPyatyorochka + 1;
+    qtyPerekrestok.textContent = Math.max(0, parseInt(qtyPerekrestok.textContent, 10) - 1);
+  });
+
+  /* Кнопка увеличения в строке «Пятёрочка»: значение +1 (не выше 6),
+     а в строке «Перекрёсток» значение одновременно -1 (не ниже 0).
+     Если Пятёрочка уже на максимуме — Перекрёсток не меняется. */
+  document.getElementById('btn-increase-pyatyorochka').addEventListener('click', function () {
+    var qtyPerekrestok = document.getElementById('qty-perekrestok');
+    var qtyPyatyorochka = document.getElementById('qty-pyatyorochka');
+
+    var currentPyatyorochka = parseInt(qtyPyatyorochka.textContent, 10);
+    if (currentPyatyorochka >= 6) return;
+
+    qtyPyatyorochka.textContent = currentPyatyorochka + 1;
+    qtyPerekrestok.textContent = Math.max(0, parseInt(qtyPerekrestok.textContent, 10) - 1);
+  });
+
+  /* Кнопка уменьшения в строке «Пятёрочка»: значение -1 (не ниже 0),
+     а в строке «Перекрёсток» значение одновременно +1 (не выше 6).
+     Если Перекрёсток уже на максимуме — Пятёрочка не меняется. */
+  document.getElementById('btn-decrease-pyatyorochka').addEventListener('click', function () {
+    var qtyPerekrestok = document.getElementById('qty-perekrestok');
+    var qtyPyatyorochka = document.getElementById('qty-pyatyorochka');
+
+    var currentPerekrestok = parseInt(qtyPerekrestok.textContent, 10);
+    if (currentPerekrestok >= 6) return;
+
+    qtyPerekrestok.textContent = currentPerekrestok + 1;
+    qtyPyatyorochka.textContent = Math.max(0, parseInt(qtyPyatyorochka.textContent, 10) - 1);
+  });
+
+  /* ─── Модальное окно фильтров (тот же паттерн, что у apelsin-offer.html
+     на paket-main.html, но открывается снизу) ─── */
+  var overlay = document.getElementById('modal-overlay');
+
+  document.getElementById('open-filter-btn').addEventListener('click', openModal);
+
+  function openModal() {
+    /* Всегда сбрасываем на стартовую страницу модалки */
+    var iframe = document.getElementById('modal-iframe');
+    iframe.src = 'filter.html';
+    document.body.style.overflow = 'hidden';
+    overlay.classList.add('is-open');
+  }
+
+  function closeModal() {
+    overlay.classList.remove('is-open');
+    /* Восстановить скролл после завершения анимации закрытия */
+    setTimeout(function () { document.body.style.overflow = ''; }, 350);
+  }
+
+  /* Клик по затемнённому фону → закрыть */
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeModal();
+  });
+
+  /* Сообщения от iframe */
+  window.addEventListener('message', function (e) {
+    var data = e.data;
+
+    /* Закрыть модалку */
+    if (data === 'close-modal' || (data && data.type === 'close-modal')) {
+      closeModal();
+      return;
+    }
+
+    /* Открыть другую страницу в той же модалке */
+    if (data && data.type === 'open-page') {
+      document.getElementById('modal-iframe').src = data.url;
+      return;
+    }
+
+    /* Iframe сообщает свою высоту → подгоняем размер */
+    if (data && data.type === 'set-height') {
+      document.getElementById('modal-iframe').style.height = data.height + 'px';
+    }
+  });
+</script>
+</body>
+</html>
