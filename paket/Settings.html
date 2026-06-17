@@ -370,7 +370,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.25);
-      z-index: 1000;
+      z-index: 9000;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.35s ease;
@@ -381,15 +381,16 @@
     }
     /* Панель скользит вверх из-за нижнего края */
     .modal-panel {
-      position: absolute;
+      position: fixed;
       bottom: 0;
       left: 50%;
-      transform: translateX(-50%) translateY(105%);
+      transform: translateX(-50%) translateY(100%);
       width: 375px;
       border-radius: 24px 24px 0 0;
       overflow: hidden;
       box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.3);
       transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 9001;
     }
     .modal-overlay.is-open .modal-panel {
       transform: translateX(-50%) translateY(0);
@@ -692,7 +693,7 @@
             <p class="card-title">Кешбэк 20%</p>
             <p class="card-subtitle">в «Пятёрочке»</p>
           </div>
-          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+          <button class="ctrl-checkbox" aria-label="Выбрано">
             <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
@@ -702,7 +703,7 @@
             <p class="card-title">Кешбэк 20%</p>
             <p class="card-subtitle">в «Перекрёстке»</p>
           </div>
-          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+          <button class="ctrl-checkbox" aria-label="Выбрано">
             <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
@@ -719,7 +720,7 @@
             <p class="card-title">Кешбэк 30%</p>
             <p class="card-subtitle">в «Перекрёстке»</p>
           </div>
-          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+          <button class="ctrl-checkbox" aria-label="Выбрано">
             <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
@@ -736,7 +737,7 @@
             <p class="card-title">Кешбэк 5%</p>
             <p class="card-subtitle">за покупки в «Много лосося»</p>
           </div>
-          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+          <button class="ctrl-checkbox" aria-label="Выбрано">
             <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
@@ -746,7 +747,7 @@
             <p class="card-title">Скидка 25%</p>
             <p class="card-subtitle">на доставку через 5Post</p>
           </div>
-          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+          <button class="ctrl-checkbox" aria-label="Выбрано">
             <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
@@ -763,7 +764,7 @@
             <p class="card-title">Кешбэк 10% на печенье «Юбилейное»</p>
             <p class="card-subtitle">в «Пятёрочке» и «Перекрёстке»</p>
           </div>
-          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+          <button class="ctrl-checkbox" aria-label="Выбрано">
             <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
@@ -773,7 +774,7 @@
             <p class="card-title">Кешбэк 10% на снеки МясоТакМясо</p>
             <p class="card-subtitle">в «Пятёрочке» и «Перекрёстке»</p>
           </div>
-          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+          <button class="ctrl-checkbox" aria-label="Выбрано">
             <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
@@ -783,7 +784,7 @@
             <p class="card-title">Кешбэк 15% на шоколад Milka EXTRA</p>
             <p class="card-subtitle">в «Пятёрочке» и «Перекрёстке»</p>
           </div>
-          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+          <button class="ctrl-checkbox" aria-label="Выбрано">
             <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
@@ -793,7 +794,7 @@
             <p class="card-title">Кешбэк 10% на печенье OREO</p>
             <p class="card-subtitle">в «Пятёрочке» и «Перекрёстке»</p>
           </div>
-          <button class="ctrl-checkbox checked" aria-label="Выбрано">
+          <button class="ctrl-checkbox" aria-label="Выбрано">
             <svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
@@ -847,7 +848,7 @@
     <div class="btn-save-wrap">
       <button class="btn-save">
         <span class="btn-save-title">Сохранить</span>
-        <span class="btn-save-sub">стоимость возрастёт на 99₽/мес</span>
+        
       </button>
     </div>
   </div>
@@ -994,19 +995,21 @@
      на paket-main.html, но открывается снизу) ─── */
   var overlay = document.getElementById('modal-overlay');
 
-  document.getElementById('open-filter-btn').addEventListener('click', openModal);
+  document.getElementById('open-filter-btn').addEventListener('click', function () { openModal('filter.html'); });
 
-  function openModal() {
-    /* Всегда сбрасываем на стартовую страницу модалки */
+  document.querySelector('.btn-choose').addEventListener('click', function () {
+    openModal('tovar.html');
+  });
+
+  function openModal(src) {
     var iframe = document.getElementById('modal-iframe');
-    iframe.src = 'filter.html';
+    iframe.src = src || 'filter.html';
     document.body.style.overflow = 'hidden';
     overlay.classList.add('is-open');
   }
 
   function closeModal() {
     overlay.classList.remove('is-open');
-    /* Восстановить скролл после завершения анимации закрытия */
     setTimeout(function () { document.body.style.overflow = ''; }, 350);
   }
 
@@ -1033,7 +1036,9 @@
 
     /* Iframe сообщает свою высоту → подгоняем размер */
     if (data && data.type === 'set-height') {
-      document.getElementById('modal-iframe').style.height = data.height + 'px';
+      var h = data.height + 'px';
+      document.getElementById('modal-iframe').style.height = h;
+      document.querySelector('.modal-panel').style.height = h;
     }
   });
 </script>

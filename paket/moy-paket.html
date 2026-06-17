@@ -673,6 +673,31 @@
 
 </div>
 
+<!-- Модальное окно filter1.html -->
+<div id="filter1-overlay" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  z-index:1000;
+  align-items:flex-end;
+  justify-content:center;
+">
+  <iframe
+    id="filter1-iframe"
+    src="filter1.html"
+    scrolling="no"
+    style="
+      width:375px;
+      height:0;
+      border:none;
+      display:block;
+      border-radius:24px 24px 0 0;
+      transition:height 0.35s cubic-bezier(.32,.72,0,1);
+    "
+  ></iframe>
+</div>
+
 <script>
   /* Переключение чипсов фильтра */
   document.querySelectorAll('.chip').forEach(function (chip) {
@@ -681,10 +706,37 @@
     });
   });
 
-  /* Кнопка фильтров — открыть filter.html (если вне iframe, просто переход) */
-  document.querySelector('.chip-icon-btn').addEventListener('click', function () {
-    window.location.href = 'filter.html';
+  /* Модальное окно filter1.html */
+  var overlay = document.getElementById('filter1-overlay');
+  var iframe  = document.getElementById('filter1-iframe');
+
+  function openFilter1() {
+    overlay.style.display = 'flex';
+    /* Небольшая задержка, чтобы iframe успел загрузиться и прислать высоту */
+    iframe.src = 'filter1.html';
+  }
+
+  function closeFilter1() {
+    iframe.style.height = '0';
+    setTimeout(function () { overlay.style.display = 'none'; }, 350);
+  }
+
+  /* Получаем высоту модалки из iframe и команду закрытия */
+  window.addEventListener('message', function (e) {
+    if (e.data && e.data.type === 'set-height') {
+      iframe.style.height = e.data.height + 'px';
+    }
+    if (e.data && e.data.type === 'close-modal') {
+      closeFilter1();
+    }
   });
+
+  /* Закрытие по клику на затемнение */
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeFilter1();
+  });
+
+  document.querySelector('.chip-icon-btn').addEventListener('click', openFilter1);
 </script>
 </body>
 </html>

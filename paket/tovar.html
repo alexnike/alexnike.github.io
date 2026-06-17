@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=375, initial-scale=1.0" />
+  <title>Фильтры</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: #c0c0c0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    .phone-frame {
+      width: 375px;
+      min-height: 100vh;
+      background: #1a1a2e;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    /* ─── Модалка ─── */
+    .filters-modal {
+      width: 375px;
+      background: white;
+      border-radius: 24px 24px 0 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    /* ─── Заголовок ─── */
+    .modal-header {
+      width: 100%;
+      padding: 8px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .modal-indicator {
+      width: 60px;
+      height: 4px;
+      background: black;
+      opacity: 0.1;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .modal-header-row {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      gap: 24px;
+      padding: 8px 0 4px;
+    }
+
+    .modal-title-block {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 24px;
+      color: black;
+    }
+
+    /* ─── Карусель ─── */
+    :root {
+      --card-bg-iphone:     #f2d2c2;
+      --card-bg-headphones: #e4ebf0;
+      --card-bg-milk:       #e9e4f0;
+      --card-bg-million:    #e9f0e4;
+      --card-bg-type5:      #f0ebe6;
+      --radius-card-active: 24px;
+      --card-w:        220px;
+      --card-h:        260px;
+      --card-scale:    0.8;
+      --card-offset-x: 227.5px;
+      --card-offset-y: 26.1px;
+      --card-far-x:    435.5px;
+      --card-far-y:    99.2px;
+      --card-ghost-x:  621.5px;
+      --card-ghost-y:  215px;
+    }
+
+    .carousel-section {
+      flex: 0 0 auto;
+      height: 260px;
+      width: 100%;
+      overflow-x: clip;
+      overflow-y: visible;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel {
+      position: relative;
+      width: 100%;
+      height: 260px;
+    }
+
+    .carousel__card {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: var(--card-w);
+      height: var(--card-h);
+      cursor: pointer;
+      transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.45s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .carousel__card[data-pos="0"] {
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      cursor: default;
+    }
+    .carousel__card[data-pos="-1"] {
+      transform: translate(calc(-50% - var(--card-offset-x)), calc(-50% + var(--card-offset-y))) rotate(-13.1deg) scale(var(--card-scale));
+      z-index: 2;
+    }
+    .carousel__card[data-pos="1"] {
+      transform: translate(calc(-50% + var(--card-offset-x)), calc(-50% + var(--card-offset-y))) rotate(13.1deg) scale(var(--card-scale));
+      z-index: 2;
+    }
+    .carousel__card[data-pos="-2"] {
+      transform: translate(calc(-50% - var(--card-far-x)), calc(-50% + var(--card-far-y))) rotate(-25.7deg) scale(var(--card-scale));
+      z-index: 1;
+    }
+    .carousel__card[data-pos="2"] {
+      transform: translate(calc(-50% + var(--card-far-x)), calc(-50% + var(--card-far-y))) rotate(25.7deg) scale(var(--card-scale));
+      z-index: 1;
+    }
+    .carousel__card[data-pos="-3"] {
+      transform: translate(calc(-50% - var(--card-ghost-x)), calc(-50% + var(--card-ghost-y))) rotate(-38.2deg) scale(var(--card-scale));
+      opacity: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .carousel__card[data-pos="3"] {
+      transform: translate(calc(-50% + var(--card-ghost-x)), calc(-50% + var(--card-ghost-y))) rotate(38.2deg) scale(var(--card-scale));
+      opacity: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .prize-card {
+      width: var(--card-w);
+      height: var(--card-h);
+      border-radius: var(--radius-card-active);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+    .prize-card--iphone     { background-color: var(--card-bg-iphone); }
+    .prize-card--headphones { background-color: var(--card-bg-headphones); }
+    .prize-card--milk       { background-color: var(--card-bg-milk); }
+    .prize-card--million    { background-color: var(--card-bg-million); }
+    .prize-card--type5      { background-color: var(--card-bg-type5); }
+
+    .prize-card__header {
+      padding: 24px 24px 0;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .prize-card__title {
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 32px;
+      letter-spacing: -0.64px;
+      color: #000;
+      word-break: break-word;
+    }
+    .prize-card__subtitle {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 18px;
+      letter-spacing: -0.32px;
+      color: #000;
+      margin-top: 2px;
+      word-break: break-word;
+    }
+    .prize-card__visual {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      min-height: 0;
+    }
+    .prize-img {
+      position: absolute;
+      left: 50%;
+      object-fit: contain;
+      pointer-events: none;
+      display: block;
+    }
+
+    .carousel--manual .carousel__card { transition: none; }
+    .carousel--result .carousel__card[data-pos="0"] {
+      transform: translate(-50%, -50%) scale(0.8);
+      transition: none;
+    }
+
+    /* ─── Контент ─── */
+    .filters-content {
+      width: 100%;
+      padding: 48px 16px 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .filter-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .filter-section-title {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 22px;
+      color: black;
+      width: 100%;
+    }
+
+    .chips-row {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    /* Чипсы с иконкой (торговая сеть) */
+    .chip {
+      background: white;
+      border: 1px solid #e9ecf0;
+      border-radius: 999px;
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .chip:hover { border-color: #c9d2da; }
+
+    .chip.selected {
+      border-color: #0088fe;
+      background: #ebf5ff;
+    }
+
+    .chip-content {
+      display: flex;
+      align-items: center;
+      height: 24px;
+      gap: 0;
+    }
+
+    .chip-icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .chip-icon img { width: 100%; height: 100%; object-fit: contain; }
+
+    .chip-label {
+      padding: 0 2px 0 4px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #535b62;
+      white-space: nowrap;
+      line-height: 22px;
+    }
+
+    /* Чипсы без иконки (вид предложения) */
+    .chip-text {
+      background: white;
+      border: 1px solid #e9ecf0;
+      border-radius: 100px;
+      padding: 7px 8px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .chip-text:hover { border-color: #c9d2da; }
+
+    .chip-text.selected {
+      border-color: #0088fe;
+      background: #ebf5ff;
+    }
+
+    .chip-text span {
+      font-size: 16px;
+      font-weight: 500;
+      color: #535b62;
+      white-space: nowrap;
+      line-height: 22px;
+    }
+
+    .chip-text.selected span,
+    .chip.selected .chip-label { color: #0075db; }
+
+    /* ─── Футер ─── */
+    .modal-footer {
+      width: 375px;
+      padding: 8px 16px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      height: 56px;
+      background: #0088fe;
+      border-radius: 12px;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+    }
+    .btn-primary:hover { background: #0079e0; }
+    .btn-primary:active { transform: scale(0.99); }
+
+    .btn-primary span {
+      font-size: 16px;
+      font-weight: 500;
+      color: white;
+      line-height: 22px;
+      white-space: nowrap;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      height: 56px;
+      background: #ebf5ff;
+      border-radius: 12px;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      transition: background-color 0.15s ease;
+    }
+    .btn-secondary:hover { background: #f5faff; }
+
+    .btn-secondary span {
+      font-size: 16px;
+      font-weight: 500;
+      color: #0075db;
+      line-height: 22px;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+<div class="phone-frame">
+  <div class="filters-modal">
+
+    <!-- Заголовок -->
+    <div class="modal-header">
+      <div class="modal-indicator"></div>
+      <div class="modal-header-row">
+        <div class="modal-title-block">
+          <p class="modal-title">Выбрать любимый товар</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Контент -->
+    <div class="filters-content">
+
+
+
+      <!-- Карусель товаров -->
+      <div class="carousel-section" aria-label="Призы акции">
+        <div class="carousel" id="carousel">
+          <div class="carousel__card" data-pos="0">
+            <div class="prize-card">
+              <div class="prize-card__header"><p class="prize-card__title"></p></div>
+              <div class="prize-card__visual"><img class="prize-img" src="" alt="" /></div>
+            </div>
+          </div>
+          <div class="carousel__card" data-pos="1">
+            <div class="prize-card">
+              <div class="prize-card__header"><p class="prize-card__title"></p></div>
+              <div class="prize-card__visual"><img class="prize-img" src="" alt="" /></div>
+            </div>
+          </div>
+          <div class="carousel__card" data-pos="2">
+            <div class="prize-card">
+              <div class="prize-card__header"><p class="prize-card__title"></p></div>
+              <div class="prize-card__visual"><img class="prize-img" src="" alt="" /></div>
+            </div>
+          </div>
+          <div class="carousel__card" data-pos="3">
+            <div class="prize-card">
+              <div class="prize-card__header"><p class="prize-card__title"></p></div>
+              <div class="prize-card__visual"><img class="prize-img" src="" alt="" /></div>
+            </div>
+          </div>
+          <div class="carousel__card" data-pos="-3">
+            <div class="prize-card">
+              <div class="prize-card__header"><p class="prize-card__title"></p></div>
+              <div class="prize-card__visual"><img class="prize-img" src="" alt="" /></div>
+            </div>
+          </div>
+          <div class="carousel__card" data-pos="-2">
+            <div class="prize-card">
+              <div class="prize-card__header"><p class="prize-card__title"></p></div>
+              <div class="prize-card__visual"><img class="prize-img" src="" alt="" /></div>
+            </div>
+          </div>
+          <div class="carousel__card" data-pos="-1">
+            <div class="prize-card">
+              <div class="prize-card__header"><p class="prize-card__title"></p></div>
+              <div class="prize-card__visual"><img class="prize-img" src="" alt="" /></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Футер -->
+    <div class="modal-footer">
+      <button class="btn-primary" id="btn-apply">
+        <span id="btn-apply-label">Выбрать</span>
+      </button>
+      <button class="btn-secondary" id="btn-reset">
+        <span>Крутить</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  /* ── Карусель ── */
+  (function () {
+    const TOTAL    = 7;
+    const PRIZES   = 5;
+    const INTERVAL = 1500;
+    const BASE     = 'images/carousel-';
+
+    const prizeData = [
+      { theme: 'iphone',     title: 'Колбаса',   subtitle: 'и другие колбасные изделия',                               cardW: 155, cardH: 155, cardTop: null,   imgSrc: BASE + 'image.png',   imgAlt: 'iPhone 17 Pro',  imgMod: 'prize-img--iphone'     },
+      { theme: 'headphones', title: 'Молоко',        subtitle: 'от производителя «Логика Молока»',                                cardW: 180, cardH: 180, cardTop: null, imgSrc: BASE + 'image-1.png', imgAlt: 'Наушники',       imgMod: 'prize-img--headphones' },
+      { theme: 'milk',       title: 'Рыба',       subtitle: 'замороженная и свежая',              cardW: 290, cardH: 290, cardTop: null, imgSrc: BASE + 'image-2.png', imgAlt: 'Кешбэк 60%',     imgMod: 'prize-img--milk'       },
+      { theme: 'million',    title: 'Овощи',           subtitle: 'полный ассортимент',                 cardW: 400, cardH:  180, cardTop: null, imgSrc: BASE + 'image-3.png', imgAlt: '1 000 000',      imgMod: 'prize-img--million'    },
+      { theme: 'type5',      title: 'Фрукты',        subtitle: 'полный ассортимент', cardW: 167, cardH: 167, cardTop: null, imgSrc: BASE + 'image-4.png', imgAlt: '500 баллов',     imgMod: 'prize-img--type5'      },
+    ];
+
+    let domCurrent   = 0;
+    let prizeCurrent = 0;
+    let timer        = null;
+    let isSpinning   = false;
+
+    const cards    = Array.from(document.querySelectorAll('.carousel__card'));
+    const carousel = document.getElementById('carousel');
+    const section  = document.querySelector('.carousel-section');
+
+    /* ── Spin math (mirror of fortune_wheel/scripts/main.js) ── */
+    const SPIN_SCALE  = 0.8;
+    const WHEEL_R     = 1005.78;
+    const SLOT_ANGLE  = [
+      0,
+      Math.asin(227.5 / WHEEL_R),
+      Math.asin(435.5 / WHEEL_R),
+      Math.asin(621.5 / WHEEL_R),
+    ];
+    const SLOT_OPACITY = [1, 1, 1, 0];
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function slotStyle(vpos) {
+      const sign  = vpos < 0 ? -1 : 1;
+      const a     = Math.min(Math.abs(vpos), 3);
+      const i0    = Math.floor(a);
+      const i1    = Math.min(i0 + 1, 3);
+      const f     = a - i0;
+      const theta = lerp(SLOT_ANGLE[i0], SLOT_ANGLE[i1], f);
+      return {
+        x:  WHEEL_R * Math.sin(theta) * sign,
+        y:  WHEEL_R * (1 - Math.cos(theta)),
+        rot: theta * 180 / Math.PI * sign,
+        op:  lerp(SLOT_OPACITY[i0], SLOT_OPACITY[i1], f),
+        z:   Math.max(0, Math.round(3 - a)),
+      };
+    }
+
+    function applyCardStyle(card, vpos, pop) {
+      const s = slotStyle(vpos);
+      const scale = SPIN_SCALE + pop * (1 - SPIN_SCALE) * Math.max(0, 1 - Math.abs(vpos));
+      card.style.transform =
+        'translate(calc(-50% + ' + s.x.toFixed(2) + 'px), calc(-50% + ' + s.y.toFixed(2) + 'px))' +
+        ' rotate(' + s.rot.toFixed(2) + 'deg) scale(' + scale.toFixed(4) + ')';
+      card.style.opacity = s.op.toFixed(3);
+      card.style.zIndex  = String(s.z);
+    }
+
+    /* ── Prize content ── */
+    function updateCardPrize(card, prizeIdx) {
+      const p = prizeData[((prizeIdx % PRIZES) + PRIZES) % PRIZES];
+      const inner = card.querySelector('.prize-card');
+      inner.className = 'prize-card prize-card--' + p.theme;
+      inner.querySelector('.prize-card__title').textContent = p.title;
+
+      let subtitle = inner.querySelector('.prize-card__subtitle');
+      if (p.subtitle) {
+        if (!subtitle) {
+          subtitle = document.createElement('p');
+          subtitle.className = 'prize-card__subtitle';
+          inner.querySelector('.prize-card__header').appendChild(subtitle);
+        }
+        subtitle.textContent = p.subtitle;
+      } else if (subtitle) {
+        subtitle.remove();
+      }
+
+      const img = inner.querySelector('.prize-img');
+      img.src       = p.imgSrc;
+      img.alt       = p.imgAlt;
+      img.className = 'prize-img ' + p.imgMod;
+      img.style.width  = p.cardW + 'px';
+      img.style.height = p.cardH + 'px';
+      if (p.cardTop == null) {
+        img.style.top       = '50%';
+        img.style.transform = 'translate(-50%, -50%)';
+      } else {
+        img.style.top       = p.cardTop + 'px';
+        img.style.transform = 'translateX(-50%)';
+      }
+    }
+
+    function posOf(i) {
+      let diff = i - domCurrent;
+      if (diff >  TOTAL / 2) diff -= TOTAL;
+      if (diff < -TOTAL / 2) diff += TOTAL;
+      return Math.max(-3, Math.min(3, Math.round(diff)));
+    }
+
+    function render() {
+      cards.forEach(function (card, i) {
+        const pos = posOf(i);
+        card.dataset.pos = String(pos);
+        updateCardPrize(card, prizeCurrent + pos);
+      });
+    }
+
+    function step(delta) {
+      domCurrent   = ((domCurrent   + delta) % TOTAL  + TOTAL)  % TOTAL;
+      prizeCurrent = ((prizeCurrent + delta) % PRIZES + PRIZES) % PRIZES;
+      render();
+    }
+
+    function startAuto() {
+      if (timer || isSpinning) return;
+      timer = setInterval(function () { step(1); }, INTERVAL);
+    }
+
+    function stopAuto() { clearInterval(timer); timer = null; }
+    function resetAuto() { stopAuto(); startAuto(); }
+
+    /* ── Spin animation ── */
+    function spinTo(targetPrize) {
+      if (isSpinning) return;
+      isSpinning = true;
+      stopAuto();
+      carousel.classList.remove('carousel--result');
+      carousel.classList.add('carousel--manual');
+
+      const D0 = domCurrent;
+      const P0 = prizeCurrent;
+      const m  = ((targetPrize - P0) % PRIZES + PRIZES) % PRIZES;
+      const R  = 8 * PRIZES + m;
+
+      const T       = 5000;
+      const A_FRAC  = 0.22;
+      const C_FRAC  = 0.30;
+      const D_FRAC  = 0.48;
+      const area    = 0.5 * A_FRAC + C_FRAC + 0.5 * D_FRAC;
+      const vc      = R / area;
+      const POP_MS  = 420;
+
+      function sint(u) { return u * u * u - 0.5 * u * u * u * u; }
+
+      function posAt(s) {
+        if (s <= 0) return 0;
+        if (s >= 1) return R;
+        if (s < A_FRAC) return vc * A_FRAC * sint(s / A_FRAC);
+        const accel = vc * A_FRAC * 0.5;
+        if (s < A_FRAC + C_FRAC) return accel + vc * (s - A_FRAC);
+        const cruise = vc * C_FRAC;
+        const g = 1 - (s - A_FRAC - C_FRAC) / D_FRAC;
+        return accel + cruise + vc * D_FRAC * (0.5 - sint(g));
+      }
+
+      const lastPrize = new Array(cards.length).fill(-1);
+      let startTs = null;
+
+      function frame(ts) {
+        if (startTs === null) startTs = ts;
+        const elapsed     = ts - startTs;
+        const s           = Math.min(1, elapsed / T);
+        const centerFloat = D0 + posAt(s);
+
+        let pop = 0;
+        if (elapsed < POP_MS) {
+          const u = elapsed / POP_MS;
+          pop = 1 - (3 * u * u - 2 * u * u * u);
+        }
+
+        cards.forEach(function (card, i) {
+          const raw      = i - centerFloat;
+          const k        = Math.round(raw / TOTAL);
+          const vpos     = raw - TOTAL * k;
+          const prizeIdx = (((P0 + (i - D0) - TOTAL * k) % PRIZES) + PRIZES) % PRIZES;
+          if (prizeIdx !== lastPrize[i]) {
+            updateCardPrize(card, prizeIdx);
+            lastPrize[i] = prizeIdx;
+          }
+          applyCardStyle(card, vpos, pop);
+        });
+
+        if (s < 1) {
+          requestAnimationFrame(frame);
+        } else {
+          finishSpin();
+        }
+      }
+
+      function finishSpin() {
+        domCurrent   = ((D0 + R) % TOTAL  + TOTAL)  % TOTAL;
+        prizeCurrent = ((P0 + R) % PRIZES + PRIZES) % PRIZES;
+        carousel.classList.remove('carousel--manual');
+        carousel.classList.add('carousel--result');
+        cards.forEach(function (card) {
+          card.style.transform = '';
+          card.style.opacity   = '';
+          card.style.zIndex    = '';
+        });
+        render();
+        isSpinning = false;
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    /* ── Tap / swipe ── */
+    cards.forEach(function (card) {
+      card.addEventListener('click', function () {
+        if (isSpinning) return;
+        if (window.self !== window.top) {
+          window.parent.postMessage({ type: 'close-modal' }, '*');
+        }
+      });
+    });
+
+    let startX = 0;
+    section.addEventListener('touchstart', function (e) {
+      if (isSpinning) return;
+      startX = e.touches[0].clientX; stopAuto();
+    }, { passive: true });
+    section.addEventListener('touchend', function (e) {
+      if (isSpinning) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1);
+      startAuto();
+    }, { passive: true });
+
+    document.getElementById('btn-reset').addEventListener('click', function () {
+      spinTo(Math.floor(Math.random() * PRIZES));
+    });
+
+    render();
+    startAuto();
+  })();
+
+  /* Переключение чипсов */
+  var chips = document.querySelectorAll('.chip, .chip-text');
+  var totalOffers = 24; /* демо-значение для "Выбрать" */
+
+  function updateApplyLabel() {
+    var selected = document.querySelectorAll('.chip.selected, .chip-text.selected').length;
+    var label = document.getElementById('btn-apply-label');
+    if (selected === 0) {
+      label.textContent = 'Показать ' + totalOffers + ' предложений';
+    } else {
+      /* Демо-логика: каждый выбранный фильтр сокращает список */
+      var shown = Math.max(1, totalOffers - selected * 4);
+      label.textContent = 'Показать ' + shown + ' предложений';
+    }
+  }
+
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      chip.classList.toggle('selected');
+      updateApplyLabel();
+    });
+  });
+
+
+  /* Применить — закрыть модалку (если внутри iframe) или просто залогировать */
+  document.getElementById('btn-apply').addEventListener('click', function () {
+    if (window.self !== window.top) {
+      window.parent.postMessage({ type: 'close-modal' }, '*');
+    }
+  });
+
+  /* Адаптация под iframe: убрать тёмный фон, сообщить высоту */
+  if (window.self !== window.top) {
+    document.querySelector('.phone-frame').style.cssText =
+      'background:transparent; min-height:auto; justify-content:flex-end;';
+    document.body.style.cssText =
+      'background:transparent; padding:0; min-height:auto; align-items:flex-end;';
+
+    window.addEventListener('load', function () {
+      var modal = document.querySelector('.filters-modal');
+      window.parent.postMessage(
+        { type: 'set-height', height: modal.scrollHeight }, '*'
+      );
+    });
+  }
+</script>
+</body>
+</html>
