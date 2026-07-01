@@ -297,24 +297,69 @@
     .updown-btn:hover { background: #ddefff; }
     .updown-btn svg { width: 16px; height: 16px; }
 
-    /* ─── Футер: кнопка «Сохранить» ─── */
-    /* Зафиксирован над .bottombar (50px) — вместе образуют общую нижнюю панель */
+    /* ─── Снекбар ─── */
+    .snackbar {
+      position: fixed;
+      bottom: 148px; /* над footer-block */
+      left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      width: 343px;
+      background: black;
+      border-radius: 12px;
+      padding: 16px 24px;
+      gap: 4px;
+      box-shadow: 0 4px 5px rgba(80,86,94,0.12), 0 2px 18px rgba(80,86,94,0.12), 0 6px 10px rgba(80,86,94,0.02);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 9500;
+    }
+    .snackbar.is-visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: all;
+    }
+    .snackbar p {
+      font-size: 14px;
+      font-weight: 500;
+      color: #f7f7f9;
+      line-height: 18px;
+      word-break: break-word;
+    }
+
+    /* ─── Футер: прогресс + кнопка «Сохранить» ─── */
     .footer-block {
       position: fixed;
       bottom: 50px;
       left: 50%;
       transform: translateX(-50%);
       width: 375px;
-      background: white;
-      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-      padding-top: 16px;
-      padding-bottom: 16px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
       z-index: 100;
     }
-    .btn-save-wrap { padding: 0 16px; }
+    .footer-progress {
+      background: #ffffff;
+      padding: 0 16px 8px 16px;
+      overflow: hidden;
+    }
+    .footer-progress__track {
+      background: #c5d1dc;
+      height: 4px;
+      width: 100%;
+      position: relative;
+    }
+    .footer-progress__fill {
+      position: absolute;
+      left: 0; top: 0;
+      height: 4px;
+      width: 81.3%;
+      background: var(--blue-70);
+    }
+    .footer-btn-block {
+      background: white;
+      padding: 4px 16px 16px;
+    }
     .btn-save {
       width: 100%;
       height: 56px;
@@ -322,7 +367,6 @@
       border: none;
       border-radius: var(--radius-md);
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       cursor: pointer;
@@ -331,7 +375,6 @@
     }
     .btn-save:hover { background: #0079e0; }
     .btn-save-title { font-size: 16px; font-weight: 500; color: white; line-height: 22px; }
-    .btn-save-sub { font-size: 10px; font-weight: 500; color: var(--blue-30); line-height: 13px; }
 
     /* ─── Нижняя навигация ─── */
     .bottombar {
@@ -400,6 +443,20 @@
       width: 375px;
       height: 460px;
       border: none;
+    }
+    #random-overlay {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    #random-iframe {
+      height: 0;
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 -12px 40px rgba(0,0,0,0.3);
+    }
+    #random-overlay.is-open #random-iframe {
+      transform: translateY(0);
     }
   </style>
 </head>
@@ -841,14 +898,54 @@
       </div>
     </div>
 
+    <!-- Случайная опция -->
+    <div class="gallery">
+      <div class="gallery-heading">
+        <p class="gallery-title">Случайная опция</p>
+      </div>
+      <div class="card-list">
+        <div class="card-row" style="min-height:auto; padding: 0;">
+          <div style="
+            width:80px; height:80px; border-radius:999px;
+            background:#ddefff; flex-shrink:0;
+            position:relative;
+          ">
+            <img src="images/random-option-icon.png" alt="" style="
+              position:absolute; top:50%; left:50%;
+              transform:translate(-50%,-50%);
+              width:52px; height:52px; object-fit:contain;
+            " />
+          </div>
+          <div class="card-text" style="gap:8px;">
+            <p class="card-subtitle" style="font-size:12px; line-height:16px;">раскрутите барабан и забирайте опцию которая выпала</p>
+            <button id="btn-random" style="
+              background:#ebf5ff; border:none; border-radius:8px;
+              padding:8px 12px; height:34px;
+              font-family:'Manrope',sans-serif; font-size:14px;
+              font-weight:500; color:#0075db; line-height:18px;
+              cursor:pointer; white-space:nowrap; align-self:flex-start;
+            ">Попробовать</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- Футер: кнопка «Сохранить» -->
+  <div id="snackbar" class="snackbar">
+    <p>Количество выбранных опций не может быть более 16</p>
+  </div>
+
   <div class="footer-block">
-    <div class="btn-save-wrap">
+    <div class="footer-progress">
+      <div class="footer-progress__track">
+        <div class="footer-progress__fill"></div>
+      </div>
+    </div>
+    <div class="footer-btn-block">
       <button class="btn-save">
         <span class="btn-save-title">Сохранить</span>
-        
       </button>
     </div>
   </div>
@@ -875,12 +972,18 @@
 
 </div>
 
-  <!-- ─── Модальное окно (filter.html), выезжает снизу ─── -->
+  <!-- ─── Модальное окно (filter.html / tovar.html), выезжает снизу ─── -->
   <div id="modal-overlay" class="modal-overlay">
     <div class="modal-panel">
       <iframe id="modal-iframe" class="modal-iframe"
               src="filter.html" scrolling="no"></iframe>
     </div>
+  </div>
+
+  <!-- ─── Модальное окно random.html (без modal-panel) ─── -->
+  <div id="random-overlay" class="modal-overlay">
+    <iframe id="random-iframe" class="modal-iframe"
+            src="" scrolling="no" style="border-radius:24px 24px 0 0;"></iframe>
   </div>
 
 <script>
@@ -921,9 +1024,36 @@
     });
   });
 
+  /* Прогресс-бар и снекбар */
+  var PROGRESS_MAX = 16;
+  var progressFill = document.querySelector('.footer-progress__fill');
+  var snackbar     = document.getElementById('snackbar');
+  var snackTimer   = null;
+
+  function updateProgress() {
+    var active = document.querySelectorAll('.ctrl-checkbox.checked, .ctrl-radio.checked').length;
+    progressFill.style.width = Math.min(active / PROGRESS_MAX * 100, 100) + '%';
+  }
+
+  function showSnackbar() {
+    clearTimeout(snackTimer);
+    snackbar.classList.add('is-visible');
+    snackTimer = setTimeout(function () {
+      snackbar.classList.remove('is-visible');
+    }, 3000);
+  }
+
   /* Чекбоксы — переключение */
   document.querySelectorAll('.ctrl-checkbox').forEach(function (cb) {
-    cb.addEventListener('click', function () { cb.classList.toggle('checked'); });
+    cb.addEventListener('click', function () {
+      var active = document.querySelectorAll('.ctrl-checkbox.checked, .ctrl-radio.checked').length;
+      if (!cb.classList.contains('checked') && active >= PROGRESS_MAX) {
+        showSnackbar();
+        return;
+      }
+      cb.classList.toggle('checked');
+      updateProgress();
+    });
   });
 
   /* Радиокнопки — только одна выбрана внутри своей группы (.card-list) */
@@ -932,8 +1062,11 @@
       var group = radio.closest('.card-list');
       group.querySelectorAll('.ctrl-radio').forEach(function (r) { r.classList.remove('checked'); });
       radio.classList.add('checked');
+      updateProgress();
     });
   });
+
+  updateProgress();
 
   /* Кнопка увеличения в строке «Перекрёсток»: значение +1 (не выше 6),
      а в строке «Пятёрочка» значение одновременно -1 (не ниже 0).
@@ -1001,6 +1134,24 @@
     openModal('tovar.html');
   });
 
+  var randomOverlay = document.getElementById('random-overlay');
+  var randomIframe  = document.getElementById('random-iframe');
+
+  document.getElementById('btn-random').addEventListener('click', function () {
+    randomIframe.src = 'random.html';
+    document.body.style.overflow = 'hidden';
+    randomOverlay.classList.add('is-open');
+  });
+
+  randomOverlay.addEventListener('click', function (e) {
+    if (e.target === randomOverlay) closeRandom();
+  });
+
+  function closeRandom() {
+    randomOverlay.classList.remove('is-open');
+    setTimeout(function () { document.body.style.overflow = ''; }, 350);
+  }
+
   function openModal(src) {
     var iframe = document.getElementById('modal-iframe');
     iframe.src = src || 'filter.html';
@@ -1024,7 +1175,7 @@
 
     /* Закрыть модалку */
     if (data === 'close-modal' || (data && data.type === 'close-modal')) {
-      closeModal();
+      if (e.source === randomIframe.contentWindow) { closeRandom(); } else { closeModal(); }
       return;
     }
 
@@ -1037,8 +1188,12 @@
     /* Iframe сообщает свою высоту → подгоняем размер */
     if (data && data.type === 'set-height') {
       var h = data.height + 'px';
-      document.getElementById('modal-iframe').style.height = h;
-      document.querySelector('.modal-panel').style.height = h;
+      if (e.source === randomIframe.contentWindow) {
+        randomIframe.style.height = h;
+      } else {
+        document.getElementById('modal-iframe').style.height = h;
+        document.querySelector('.modal-panel').style.height = h;
+      }
     }
   });
 </script>
